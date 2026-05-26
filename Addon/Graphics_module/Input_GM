@@ -1,0 +1,47 @@
+============================/ Graphic module VARIABLES \===================================
+!!!!!!!!!!!!!!!!!!!!!!!!!!! VKT FILE NUMBER OF POINT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!! name_vtk: file name
+"fs0000z"
+!!!!!!!!!!! nx_vtk: number of point in X 
+100
+!!!!!!!!!!! ny_vtk: number of point in Y 
+50
+!!!!!!!!!!! nz_vtk: number of point in Z 
+50
+!!!!!!!!!!!!!!!!!!!!!!!!!! PERTURBATION SCALAR OUTPUT !!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!! pr_vtk: if 1, pr vtk output is activated
+1
+!!!!!!!!!!! psi_vtk: if 1, psi vtk output is activated
+0
+!!!!!!!!!!! phi_vtk: if 1, phi vtk output is activated
+0
+!!!!!!!!!!! uzt_vtk: if 1, uzt vtk output is activated
+0
+!!!!!!!!!!! nf_vtk: if 1, nf vtk output is activated
+0
+!!!!!!!!!!! vprlf_vtk: if 1, vprlf vtk output is activated
+0
+!!!!!!!!!!! vthprlf_vtk: if 1, vthprlf vtk output is activated
+0
+!!!!!!!!!!! vr_vtk: if 1, vr vtk output is activated
+0
+!!!!!!!!!!! vth_vtk: if 1, vth vtk output is activated
+0
+!!!!!!!!!!! Br_vtk: if 1, Br vtk output is activated
+0
+!!!!!!!!!!! Bth_vtk: if 1, Bth vtk output is activated
+0
+!!!!!!!!!!! nalp_vtk: if 1, nalp vtk output is activated
+0
+!!!!!!!!!!! vprlalp_vtk: if 1, vprlalp vtk output is activated
+0
+!!!!!!!!!!!!!!!!!! EQUILIBRIUM + PERTURBATION SCALAR OUTPUT !!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!! preq_vtk: if 1, pr vtk output is activated
+0
+!!!!!!!!!!! nfeq_vtk: if 1, nf vtk output is activated
+0
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VECTOR OUTPUT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!! Vvec_vtk: if 1, velocity vector vtk output is activated
+0
+!!!!!!!!!!! Bvec_vtk: if 1, magnetic field vector vtk output is activated
+0
