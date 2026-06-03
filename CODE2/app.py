@@ -10,11 +10,13 @@ import shutil
 from InputManager import InputManager
 from ExecutionEngine import ExecutionEngine
 from OutputParser import OutputParser
+from AutoLabeler import SimulationLabeler
 
 # --- 1. CONFIGURACIONES GLOBALES
 TARGET_DIR = "./DIIID"
 TEMPLATE_DIR = "./Templates_DIIID"
 DIR_GUARDADAS = "./simulaciones_guardadas"
+CSV_CONTINUO = "df_continuo.csv"     # Espectro del continuo para n=1,2,3,4 (falta 5), con sqrt(eje x) y <500kHz
 
 # --- 2. CONFIGURACIÓN DE LA PÁGINA Y ESTADO ---
 st.set_page_config(page_title="Dashboard FAR3d", layout="wide")
@@ -72,15 +74,47 @@ def renderizar_resultados_locales(res, prefijo_widget="local"):
     """Renderiza las métricas y la gráfica. Se usa tanto en Capa Local como en Guardadas."""
     v_gam = extraer_numero(res.get('gam', 0))
     v_om_r = extraer_numero(res.get('om_r', 0))
-    v_gam_var = extraer_numero(res.get('gam_var', 0))
-    v_om_r_var = extraer_numero(res.get('om_r_var', 0))
+    v_gam_var = extraer_numero(res.get('gam_var', 1))
+    v_om_r_var = extraer_numero(res.get('om_r_var', 1))
 
-    # Métricas
-    st.markdown("### 📊 Resultados Analíticos")
+    # --- NUEVO: PANEL DE DIAGNÓSTICO (ETIQUETADO) ---
+    etiqueta = res.get('etiqueta', {})
+    if etiqueta:
+        st.markdown("### 🧠 Diagnóstico Automático (IA)")
+
+        # Banner de color según la estabilidad
+        tipo_inest = etiqueta.get("tipo_inestabilidad", "Desconocida")
+        if tipo_inest != "Estable/Ruido":
+            st.error(f"🚨 **INESTABILIDAD DETECTADA**")
+        else:
+            st.success(f"✅ **PLASMA ESTABLE:** {tipo_inest} (Ruido numérico o Amortiguado)")
+
+        # Métricas físicas extraídas
+        with st.container(border=True):
+            e1, e2, e3, e4 = st.columns(4)
+            e1.metric("Inestabilidad AE", tipo_inest if tipo_inest else "N/A")
+
+            modo_str = etiqueta.get("modo_dominante_str")
+            e2.metric("Modo Dominante (m/n)", modo_str if modo_str else "N/A")
+
+            r_aprox = etiqueta.get("r_continuo_aprox")
+            e3.metric("Posición Aproximada (r_aprox)", f"{r_aprox:.4f}" if r_aprox is not None else "N/A")
+
+            diff_m = etiqueta.get("diff_m")
+            e4.metric("Diferencia (m, m + i)", f"{diff_m}" if diff_m is not None else "N/A")
+
+        with st.container(border=True):
+            m1, _ = st.columns(2)
+            ramas = etiqueta.get("ramas")
+            ramas = [float(r) for r in ramas]
+            m1.metric("Ramas", f"{ramas}" if ramas is not None else "N/A")
+
+    # --- RESULTADOS ANALÍTICOS CLÁSICOS ---
+    st.markdown("### 📊 Resultados Analíticos Escalares")
     with st.container(border=True):
         m1, m2, m3, m4 = st.columns(4)
-        m1.metric("Tasa de Crecimiento (gam)", f"{v_gam:.4e}")
-        m2.metric("Frecuencia Real (om_r)", f"{v_om_r:.4e}")
+        m1.metric("Tasa de Crecimiento (gam)", f"{v_gam:.6f}")
+        m2.metric("Frecuencia Real (om_r)", f"{v_om_r:.2f} kHz")
         m3.metric("Varianza gam", f"{v_gam_var:.4e}", delta="Precisión" if v_gam_var < 1e-4 else "Dispersión",
                   delta_color="inverse")
         m4.metric("Varianza om_r", f"{v_om_r_var:.4e}", delta="Precisión" if v_om_r_var < 1e-4 else "Dispersión",
@@ -116,7 +150,7 @@ def renderizar_resultados_locales(res, prefijo_widget="local"):
             vars_extra = st.multiselect(
                 "Superponer variables adicionales (Máx 2)",
                 options=opciones_extra,
-                default=["q", "Beam Ion Density(10^20 m^-3)"] if "q" in opciones_extra else [],
+                default=["q"] if "q" in opciones_extra else [],
                 max_selections=2,
                 key=f"vars_{prefijo_widget}"
             )
@@ -185,15 +219,15 @@ def ejecutar_simulacion_real(inputs, nn_val, mm_vals):
     manager.modify_data_txt('Data.txt', 'Data.txt', data_vars)
 
     # LANZAR SIMULACIÓN
-    exec_result = engine.run_simulation(run_id=9999, timeout_seconds=180)
+    exec_result = engine.run_simulation(run_id=9999, timeout_seconds=1800)
 
     # EXTRACCIÓN DE RESULTADOS - OBTENER ESCALARES Y DATAFRAMES
     if exec_result['status'] == "SUCCESS":
         datos_simulacion = parser.parse_all()
         escalares = datos_simulacion['escalares']
         resultados = {
-            "gam": {escalares.get('gam', 'N/A')}, "om_r": {escalares.get('om_r', 'N/A')},
-            "gam_var": {escalares.get('gam_var', 'N/A')}, "om_r_var": {escalares.get('om_r_var', 'N/A')},
+            "gam": escalares.get('gam', 'N/A'), "om_r": escalares.get('om_r', 'N/A'),
+            "gam_var": escalares.get('gam_var', 'N/A'), "om_r_var": escalares.get('om_r_var', 'N/A'),
             "df_nf": datos_simulacion["nf_0000"], "df_prof": datos_simulacion["profiles"],
             "df_data": datos_simulacion["data_matrix"], "df_prof_ex": datos_simulacion["profiles_ex"],
             "df_phi": datos_simulacion["phi_0000"], "farprt_path": datos_simulacion["farprt"],
@@ -313,18 +347,18 @@ elif st.session_state.capa_actual == "Local":
                 inputs_actuales[var] = int(val_raw) if tipo_dato == "int" else float(val_raw)
 
         st.markdown("---")
-        # --- NUEVO: CONFIGURACIÓN DE MODOS ---
+        # --- CONFIGURACIÓN DE MODOS ---
         st.subheader("Configuración de Modos (Espectro Toroidal/Poloidal)")
         st.markdown("Define las familias $m/n$ que se incluirán en esta ejecución.")
         col_n, col_m = st.columns([1, 2])
 
         with col_n:
             # Selector único para nn (1 a 5)
-            nn_elegido = st.selectbox("Número Toroidal (nn)", options=[1, 2, 3, 4, 5], index=0)
+            nn_elegido = st.selectbox("Número Toroidal (n)", options=[1, 2, 3, 4, 5], index=0)
 
         with col_m:
             # Multiselector para mm (permite múltiples valores)
-            mm_elegidos = st.multiselect("Números Poloidales (mm)",
+            mm_elegidos = st.multiselect("Números Poloidales (m)",
                                          options=list(range(1, 21)),  # De 1 a 20 como opciones disponibles
                                          default=[1, 2, 3, 4])  # Por defecto el caso clásico
 
@@ -337,10 +371,25 @@ elif st.session_state.capa_actual == "Local":
         lanzar_simulacion = st.form_submit_button("🚀 EJECUTAR SIMULACIÓN", type="primary", disabled=(len(mm_elegidos)==0))
 
     if lanzar_simulacion:
-        with st.spinner('Ejecutando simulación de FAR3d...'):
-            st.session_state.resultados_locales = ejecutar_simulacion_real(inputs_actuales, nn_elegido, mm_elegidos)
-            st.session_state.inputs_ejecutados = inputs_actuales  # Guardamos qué inputs se usaron
-            st.session_state.modos_ejecutados = {"nn": nn_elegido, "mm": mm_elegidos}  # Guardar los modos elegidos
+        with st.spinner('Ejecutando simulación de FAR3d y Analizando Física...'):
+            # 1. Ejecutar simulación real
+            resultados_raw = ejecutar_simulacion_real(inputs_actuales, nn_elegido, mm_elegidos)
+
+            # 2. INYECTAR EL ETIQUETADOR AUTOMÁTICO
+            labeler = SimulationLabeler()
+            etiqueta = labeler.generate_label(
+                escalares=resultados_raw,
+                df_phi=resultados_raw.get("df_phi"),
+                df_continuo=pd.read_csv(CSV_CONTINUO),
+                df_prof=resultados_raw.get("df_prof")
+            )
+
+            # 3. Añadir la etiqueta al diccionario de resultados
+            resultados_raw["etiqueta"] = etiqueta
+
+            st.session_state.resultados_locales = resultados_raw
+            st.session_state.inputs_ejecutados = inputs_actuales
+            st.session_state.modos_ejecutados = {"nn": nn_elegido, "mm": mm_elegidos}
 
     # --- 2. Mostrar Resultados si existen en memoria ---
     if 'resultados_locales' in st.session_state:
@@ -365,32 +414,23 @@ elif st.session_state.capa_actual == "Local":
                         os.makedirs(path_guardado)
                         res = st.session_state.resultados_locales
 
-                        # 1. Guardar Metadatos e Inputs en JSON
+                        # 1. Guardar Metadatos, Inputs Y ETIQUETA en JSON
                         metadata = {
                             "inputs": st.session_state.inputs_ejecutados,
+                            "modos": st.session_state.modos_ejecutados,
                             "gam": extraer_numero(res.get('gam', 0)),
                             "om_r": extraer_numero(res.get('om_r', 0)),
                             "gam_var": extraer_numero(res.get('gam_var', 0)),
-                            "om_r_var": extraer_numero(res.get('om_r_var', 0))
+                            "om_r_var": extraer_numero(res.get('om_r_var', 0)),
+                            "etiqueta_IA": res.get("etiqueta", {})
                         }
                         with open(os.path.join(path_guardado, "metadata.json"), "w") as f:
                             json.dump(metadata, f, indent=4)
 
                         # 2. Guardar DataFrames en CSV
-                        if res.get("df_nf") is not None: res["df_nf"].to_csv(
-                            os.path.join(path_guardado, "df_nf.csv"), index=False)
-                        if res.get("df_phi") is not None: res["df_phi"].to_csv(
-                            os.path.join(path_guardado, "df_phi.csv"), index=False)
-                        if res.get("df_psi") is not None: res["df_psi"].to_csv(
-                            os.path.join(path_guardado, "df_psi.csv"), index=False)
-                        if res.get("df_pr") is not None: res["df_pr"].to_csv(
-                            os.path.join(path_guardado, "df_pr.csv"), index=False)
-                        if res.get("df_prof") is not None: res["df_prof"].to_csv(
-                            os.path.join(path_guardado, "df_prof.csv"), index=False)
-                        if res.get("df_prof_ex") is not None: res["df_prof_ex"].to_csv(
-                            os.path.join(path_guardado, "df_prof_ex.csv"), index=False)
-                        if res.get("df_data") is not None: res["df_data"].to_csv(
-                            os.path.join(path_guardado, "df_data.csv"), index=False)
+                        for clave_df in ["df_nf", "df_phi", "df_psi", "df_pr", "df_prof", "df_prof_ex", "df_data"]:
+                            if res.get(clave_df) is not None:
+                                res[clave_df].to_csv(os.path.join(path_guardado, f"{clave_df}.csv"), index=False)
                         if res.get("farprt_path") is not None:
                             shutil.copy2(res['farprt_path'], os.path.join(path_guardado, "farprt"))
 
@@ -424,6 +464,7 @@ elif st.session_state.capa_actual == "Guardadas":
                 "om_r": metadata.get("om_r", 0),
                 "gam_var": metadata.get("gam_var", 0),
                 "om_r_var": metadata.get("om_r_var", 0),
+                "etiqueta": metadata.get("etiqueta_IA", {}),
                 "df_nf": pd.read_csv(os.path.join(path_sim, "df_nf.csv")) if os.path.exists(
                     os.path.join(path_sim, "df_nf.csv")) else None,
                 "df_phi": pd.read_csv(os.path.join(path_sim, "df_phi.csv")) if os.path.exists(
@@ -443,7 +484,8 @@ elif st.session_state.capa_actual == "Guardadas":
             # Mostrar los inputs con los que se ejecutó
             st.markdown("### ⚙️ Parámetros de Entrada Usados")
             inputs_usados = metadata.get("inputs", {})
-            st.json(inputs_usados, expanded=False)
+            etiqueta_IA = metadata.get("etiqueta_IA", {})
+            st.json([inputs_usados, etiqueta_IA], expanded=False)
 
             # Renderizar métricas y gráfica usando la función auxiliar común
             renderizar_resultados_locales(res_cargados, prefijo_widget="guardada")

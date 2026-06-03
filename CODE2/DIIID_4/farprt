@@ -1,0 +1,946 @@
+===================================================================================================
+========================================================______========_============================
+============================_____====______====_____===|_____ |=======||===========================
+===========================| ____|==| ____ |==| ___ |========||=======||===========================
+===========================||____===||====||==||===||===_____||=======||===========================
+===========================| ____|==||____||==||___||==|_____ |== ____||===========================
+===========================||=======| ____ |==||=\\==========||==| ___ |===========================
+===========================||=======||====||==||==\\====_____||==||___||===========================
+===========================||=======||====||==||== \\==|______|==|_____|=======VER1.0==============
+===================================================================================================
+ copy of Input_Model:
+ ============================/ MAIM NPUT VARIABLES \===================================                                              
+ !!!!!!!!!!! nstres: if 0 new run, if 1 the run is a continuation                                                                    
+ 0                                                                                                                                   
+ !!!!!!!!!!! numrun: run number                                                                                                      
+ 0000                                                                                                                                
+ !!!!!!!!!!! numruno: name of the previous run output                                                                                
+ 0000z                                                                                                                               
+ !!!!!!!!!!! numvac: run number index                                                                                                
+ 41503                                                                                                                               
+ !!!!!!!!!!! nonlin: linear run if 0, non linear run if 1 (no available yet)                                                         
+ 0                                                                                                                                   
+ !!!!!!!!!!! ngeneq: equilibrium input (only VMEC available now)                                                                     
+ 1                                                                                                                                   
+ !!!!!!!!!!! eq_name: equilibrium name                                                                                               
+ Eq_DIIID_RS                                                                                                                         
+ !!!!!!!!!!! maxstp: simulation time steps                                                                                           
+ 2500                                                                                                                                
+ !!!!!!!!!!! dt0: simulation time step                                                                                               
+ 2                                                                                                                                   
+ !!!!!!!!!!! ldim: total number of poloidal modes (equilibrium + dynamic)                                                            
+ 37                                                                                                                                  
+ !!!!!!!!!!! leqdim: equilibrium poloidal modes                                                                                      
+ 11                                                                                                                                  
+ !!!!!!!!!!! jdim: number of radial points                                                                                           
+ 1000                                                                                                                                
+ !!!!!!!!!!! ext_prof: include external profiles if 1                                                                                
+ 1                                                                                                                                   
+ !!!!!!!!!!! ext_prof_name: external profile file name                                                                               
+ Data.txt                                                                                                                            
+ !!!!!!!!!!! ext_prof_len: number of lines in the external profile                                                                   
+ 100                                                                                                                                 
+ !!!!!!!!!!! iflr_on: activate thermal ion FLR damping effects if 1                                                                  
+ 0                                                                                                                                   
+ !!!!!!!!!!! epflr_on: activate fast particle FLR damping effects if 1                                                               
+ 0                                                                                                                                   
+ !!!!!!!!!!! ieldamp_on: activate electron-ion Landau damping effect if 1                                                            
+ 0                                                                                                                                   
+ !!!!!!!!!!! twofl_on: activate two fluid effects if 1                                                                               
+ 0                                                                                                                                   
+ !!!!!!!!!!! alpha_on: activate a 2nd fast particle species if 1                                                                     
+ 0                                                                                                                                   
+ !!!!!!!!!!! Trapped_on: activate correction for trapped 1st fast particle species if 1                                              
+ 0                                                                                                                                   
+ !!!!!!!!!!! matrix_out: activate eigensolver output                                                                                 
+ .false.	                                                                                                                            
+ !!!!!!!!!!! m0dy: equilibrium modes as dynamic                                                                                      
+ 0                                                                                                                                   
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ ==================================/ MODEL PARAMETERS \===================================                                           
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!! MODES INCLUDED IN THE MODEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                            
+ !!!!!!!!!!! mm: poloidal dynamic and equilibrium modes                                                                              
+ 20,19,18,17,16,15,14,13,12,11,10,9,8,                                                                                               
+ -20,-19,-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,                                                                                  
+ 0,1,2,3,4,5,6,7,8,9,10                                                                                                              
+ !!!!!!!!!!! nn: toroidal dynamic and equilibrium modes                                                                              
+ 13*4,13*-4,11*0                                                                                                                     
+ !!!!!!!!!!! mmeq: poloidal equilibrium modes                                                                                        
+ 0,1,2,3,4,5,6,7,8,9,10                                                                                                              
+ !!!!!!!!!!! nneq: toroidal equilibrium modes                                                                                        
+ 11*0                                                                                                                                
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PERTURBATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                            
+ !!!!!!!!!!! ipert: different options to drive a perturbation in the equilibria                                                      
+ 1                                                                                                                                   
+ !!!!!!!!!!! widthi: size of the perturbation                                                                                        
+ 1.e-140                                                                                                                             
+ !!!!!!!!!!! Auto_grid_on: auto grid spacing option                                                                                  
+ 1                                                                                                                                   
+ !!!!!!!!!!! ni: number of points interior to the island                                                                             
+ 499                                                                                                                                 
+ !!!!!!!!!!! nis: number of points in the island                                                                                     
+ 251                                                                                                                                 
+ !!!!!!!!!!! ne: number of points exterior to the island                                                                             
+ 250                                                                                                                                 
+ !!!!!!!!!!! delta: normalized width of the uniform fine grid (island)                                                               
+ 0.25                                                                                                                                
+ !!!!!!!!!!! rc: center of the fine grid (island) along the normalized minor radius                                                  
+ 0.625                                                                                                                               
+ !!!!!!!!!!! Edge_on: activates the VMEC data extrapolation                                                                          
+ 0                                                                                                                                   
+ !!!!!!!!!!! edge_p: grid point from where the VMEC data is extrapolated                                                             
+ 990                                                                                                                                 
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PLASMA PARAMETERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                            
+ !!!!!!!!!!! gamma: adiabatic index                                                                                                  
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! s: magnetic Lundquist number                                                                                            
+ 5.e6                                                                                                                                
+ !!!!!!!!!!! betath_factor: thermal beta factor                                                                                      
+ 1                                                                                                                                   
+ !!!!!!!!!!! ietaeq: resistivity profile type (if 5 the electron temperature is used)                                                
+ 1                                                                                                                                   
+ !!!!!!!!!!! spe1: species first EP population                                                                                       
+ 1                                                                                                                                   
+ !!!!!!!!!!! bet0_f: fast particle beta                                                                                              
+ 0.04                                                                                                                                
+ !!!!!!!!!!! spe2: species second EP population                                                                                      
+ 4                                                                                                                                   
+ !!!!!!!!!!! bet0_falp: 2nd species fast particle beta                                                                               
+ 0.05                                                                                                                                
+ !!!!!!!!!!! omcy: normalized fast particle cyclotron frequency                                                                      
+ 31.76                                                                                                                               
+ !!!!!!!!!!! omcyb: normalized helicaly trapped fast particle frequency                                                              
+ 0.01                                                                                                                                
+ !!!!!!!!!!! rbound: normalized helicaly trapped bound length                                                                        
+ 0.002                                                                                                                               
+ !!!!!!!!!!! omcyalp: normalized 2nd species fast particle cyclotron frequency                                                       
+ 15.88                                                                                                                               
+ !!!!!!!!!!! itime: time normalization option                                                                                        
+ 2                                                                                                                                   
+ !!!!!!!!!!! dpres: electron pressure normalized to the total pressure (two fluid effects)                                           
+ 0.35                                                                                                                                
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DIFFUSIVITIES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ !!!!!!!!!!! stdifp: thermal pressure eq. diffusivity                                                                                
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! stdifu: vorticity eq. diffusivity                                                                                       
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! stdifv: thermal particle parallel velocity eq. diffusivity                                                              
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! stdifnf: fast particle density eq. diffusivity                                                                          
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! stdifvf: fast particle parallel velocity eq. diffusivity                                                                
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! stdifnfalp: fast particle density eq. diffusivity                                                                       
+ 0.0                                                                                                                                 
+ !!!!!!!!!!! stdifvfalp: fast particle parallel velocity eq. diffusivity                                                             
+ 0.0                                                                                                                                 
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LANDAU CLOSURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ !!!!!!!!!!! LcA0: Landau closure 1                                                                                                  
+ 2.718                                                                                                                               
+ !!!!!!!!!!! LcA1: Landau closure 2                                                                                                  
+ -1.311                                                                                                                              
+ !!!!!!!!!!! LcA2: correction to the fast particle beta                                                                              
+ 0.889                                                                                                                               
+ !!!!!!!!!!! LcA3: correction to the ratio between fast particle thermal velocity and Alfven velocity                                
+ 1.077                                                                                                                               
+ !!!!!!!!!!! LcA0alp: Landau closure 1 2nd species                                                                                   
+ 2.718                                                                                                                               
+ !!!!!!!!!!! LcA1alp: Landau closure 2 2nd species                                                                                   
+ -1.311                                                                                                                              
+ !!!!!!!!!!! LcA2alp: correction to the 2nd species fast particle beta                                                               
+ 0.889                                                                                                                               
+ !!!!!!!!!!! LcA3alp: correction to the ratio between fast particle thermal velocity and Alfven velocity 2nd species                 
+ 1.077                                                                                                                               
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DAMPINGS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ !!!!!!!!!!! omegar: eigenmode frequency without damping effects                                                                     
+ 0.031                                                                                                                               
+ !!!!!!!!!!! iflr: thermal ions larmor radius normalized to the minor radius                                                         
+ 0.01                                                                                                                                
+ !!!!!!!!!!! r_epflr: energetic particle larmor radius normalized to the minor radius                                                
+ 0.01                                                                                                                                
+ !!!!!!!!!!! r_epflralp: 2nd species energetic particle larmor radius normalized to the minor radius                                 
+ 0.02                                                                                                                                
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OUTPUT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ !!!!!!!!!!! lplots: number of eigenfunction modes in the output files                                                               
+ 26                                                                                                                                  
+ !!!!!!!!!!! nprint: number of step for an output in farprt file                                                                     
+ 100                                                                                                                                 
+ !!!!!!!!!!! ndump: number of step for an output                                                                                     
+ 1000                                                                                                                                
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OTHER PARAMETERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ !!!!!!!!!!! DIIID_u: turn on to use the same units than TRANSP output in the external profiles (cm not m)                           
+ 0                                                                                                                                   
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+ ================================/ SELF PROFILES PARAMETERS \============================                                            
+ !!!!!!!!!!! EP_dens_on: user defined fast particle density profile (if 1)                                                           
+ 1                                                                                                                                   
+ !!!!!!!!!!! Adens: fast particle density profile flatness                                                                           
+ 10                                                                                                                                  
+ !!!!!!!!!!! Bdens: location of the fast particle density profile gradient                                                           
+ 0.8                                                                                                                                 
+ !!!!!!!!!!! Alpha_dens_on: user defined 2nd species fast particle density profile (if 1)                                            
+ 0                                                                                                                                   
+ !!!!!!!!!!! Adensalp: 2nd species fast particle density profile flatness                                                            
+ 7                                                                                                                                   
+ !!!!!!!!!!! Bdensalp: location of the 2nd species fast particle density profile gradient                                            
+ 0.2                                                                                                                                 
+ !!!!!!!!!!! EP_vel_on: user defined fast particle vth/vA0 profile (if 1)                                                            
+ 0                                                                                                                                   
+ !!!!!!!!!!! Alpha_vel_on: user defined 2nd species fast particle vth/vA0 profile (if 1)                                             
+ 0                                                                                                                                   
+ !!!!!!!!!!! q_prof_on: the safety factor profile of the external profile is used (is 1)                                             
+ 1                                                                                                                                   
+ !!!!!!!!!!! Eq_vel_on: the equilibrium toroidal velocity profile of the external profile is used (is 1)                             
+ 1                                                                                                                                   
+ !!!!!!!!!!! Eq_velp_on: the equilibrium poloidal velocity profile of the external profile is used (if 1)                            
+ 0                                                                                                                                   
+ !!!!!!!!!!! Eq_Presseq_on: the equilibrium pressure profile of the external profile is used (is 1)                                  
+ 0                                                                                                                                   
+ !!!!!!!!!!! Eq_Presstot_on: the equilibrium + fast particle pressure profiles of the external profile is used (is 1)                
+ 0                                                                                                                                   
+ !!!!!!!!!!! deltaq: safety factor displacement (only tokamak eq.)                                                                   
+ 0                                                                                                                                   
+ !!!!!!!!!!! deltaiota: iota displacement (only stellarator eq.)                                                                     
+ 0                                                                                                                                   
+ !!!!!!!!!!! etascl: user defined constant resistivity (if ietaeq=2)                                                                 
+ 1                                                                                                                                   
+ !!!!!!!!!!! eta0: user defined resistivity profile (if ietaeq=3)                                                                    
+ 1                                                                                                                                   
+ !!!!!!!!!!! reta: user defined resistivity profile (if ietaeq=3)                                                                    
+ 0.5                                                                                                                                 
+ !!!!!!!!!!! etalmb: user defined resistivity profile (if ietaeq=3)                                                                  
+ 0.5                                                                                                                                 
+ !!!!!!!!!!! cnep: user defined thermal plasma density profile                                                                       
+ 5.349622177242649E-01, -8.158145079082755E-01,  9.051313827341806E+00,                                                              
+ -9.908622794510921E+01,  5.436130071633405E+02, -1.683588662473988E+03,                                                             
+ 3.184577674238863E+03, -3.789454655055126E+03,  2.786069409436922E+03,                                                              
+ -1.160818784526462E+03,  2.100700986027593E+02                                                                                      
+ !!!!!!!!!!! ctep: user defined thermal electron plasma temperature profile                                                          
+ 2.466297479423131E+00, -3.123519794977899E+00,  1.455166487731591E+01,                                                              
+ -8.288042333625850E+01,  3.310397776819081E+02, -9.891030935273041E+02,                                                             
+ 2.133646774676442E+03, -3.082790956275732E+03,  2.757324727437074E+03,                                                              
+ -1.367187266111290E+03,  2.864529219889411E+02                                                                                      
+ !!!!!!!!!!! cnfp: user defined energetic particles density profile                                                                  
+ 0.3, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0                                                                               
+ !!!!!!!!!!! cvep: user defined thermal ions parallel velocity profile (only for thermal ion FLR effects)                            
+ 5.349622177242649E-01, -8.158145079082755E-01,  9.051313827341806E+00,                                                              
+ -9.908622794510921E+01,  5.436130071633405E+02, -1.683588662473988E+03,                                                             
+ 3.184577674238863E+03, -3.789454655055126E+03,  2.786069409436922E+03,                                                              
+ -1.160818784526462E+03,  2.100700986027593E+02                                                                                      
+ !!!!!!!!!!! cvfp: user defined energetic particles parallel velocity profile                                                        
+ 0.32, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0                                                                              
+ !!!!!!!!!!! cnfpalp: user defined 2nd species energetic particles density profile                                                   
+ 5.349622177242649E-01, -8.158145079082755E-01,  9.051313827341806E+00,                                                              
+ -9.908622794510921E+01,  5.436130071633405E+02, -1.683588662473988E+03,                                                             
+ 3.184577674238863E+03, -3.789454655055126E+03,  2.786069409436922E+03,                                                              
+ -1.160818784526462E+03,  2.100700986027593E+02                                                                                      
+ !!!!!!!!!!! cvfpalp: user defined 2nd species energetic particles parallel velocity profile                                         
+ 0.32, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0                                                                              
+ !!!!!!!!!!! eqvt: user defined equilibrium thermal toroidal velocity profile                                                        
+ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0                                                                               
+ !!!!!!!!!!! eqvp: user defined equilibrium thermal poloidal velocity profile                                                        
+ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0                                                                               
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                              
+
+ time = 22:00:36       date = 02/06/2026
+
+
+R_0 = 1.720338E+00 B0 = 1.987900E+00 eps= 4.625675E-01
+
+bst is modified for    0 resonant modes
+
+
+****************************************************    tokamak     ***************************************************
+
+***************************************************toroidal geometry***************************************************
+
+*********************************************************linear********************************************************
+
+
+control:
+numrun  =     00000 numruno =     0000z numruns =     00000 numvac  =     41503 maxstp  =      2500 nstep   =         0
+ndump   =      1000 nprint  =       100 lplots  =        26 itime   =         2 dt0     = 2.000E+00 nonlin  =         0
+
+numhist =    fs0000    
+
+domain:
+mj      =      1000 lmax    =        37 leqmax  =        11 mmin    =       -20 mmax    =        20 nmin    =        -4
+nmax    =         4 mmineq  =         0 mmaxeq  =        10 nmineq  =         0 nmaxeq  =         0 l0      =        27
+leq0    =         1 lhmax   =        15 lheqmx  =         2 ni      =       499 nis     =       251 ne      =       250
+delta   = 2.500E-01 rc      = 0.6250000 fti     = 0.9500000 fte     = 0.9500000
+
+equil:
+ngeneq  =         1 ndevice =    tokamak     
+eps     = 0.4625675 bet0    = 1.565E-02 bet0_f  = 4.000E-02 bet0_al = 5.000E-02 omcy    = 3.176E+01 omcyalp = 1.588E+01
+Adens   = 1.000E+01 Bdens   = 8.000E-01 Adensal = 7.000E+00 Bdensal = 2.000E-01
+
+dynamo:
+etascl  = 1.000E+00 reta    = 0.5000000 eta0    = 1.000E+00 etalmb  = 5.000E-01 ietaeq  =         1
+s       = 5.000E+06 gamma   = 0.000E+00 stdifp  = 0.000E+00 stdifu  = 0.000E+00 stdifnf = 0.000E+00 stdifvf = 0.000E+00
+stdifv  = 0.000E+00 stdifnal= 0.000E+00 stdifval= 0.000E+00
+LcA0    = 2.718E+00 LcA1    =-1.311E+00 LcA2    = 8.890E-01 LcA3    = 1.077E+00
+LcA0alp = 2.718E+00 LcA1alp =-1.311E+00 LcA2alp = 8.890E-01 LcA3alp = 1.077E+00
+iflr    =         0 epflr   =         0 ieldamp =         0 twofl   =         0 alpha   =         0
+omegar  = 3.100E-02 r_iflr  = 1.000E-02 r_epflr = 1.000E-02 r_epalp = 2.000E-02 dpres   = 3.500E-01
+ipert   =         1 pertscl = 1.000E+00 dt      = 2.000E+00 time    = 0.000E+00
+
+
+ll(m,n)
+  20     0   0   0   0   0   0   0   0   1
+  19     0   0   0   0   0   0   0   0   2
+  18     0   0   0   0   0   0   0   0   3
+  17     0   0   0   0   0   0   0   0   4
+  16     0   0   0   0   0   0   0   0   5
+  15     0   0   0   0   0   0   0   0   6
+  14     0   0   0   0   0   0   0   0   7
+  13     0   0   0   0   0   0   0   0   8
+  12     0   0   0   0   0   0   0   0   9
+  11     0   0   0   0   0   0   0   0  10
+  10     0   0   0   0  37   0   0   0  11
+   9     0   0   0   0  36   0   0   0  12
+   8     0   0   0   0  35   0   0   0  13
+   7     0   0   0   0  34   0   0   0   0
+   6     0   0   0   0  33   0   0   0   0
+   5     0   0   0   0  32   0   0   0   0
+   4     0   0   0   0  31   0   0   0   0
+   3     0   0   0   0  30   0   0   0   0
+   2     0   0   0   0  29   0   0   0   0
+   1     0   0   0   0  28   0   0   0   0
+   0     0   0   0   0  27   0   0   0   0
+  -1     0   0   0   0   0   0   0   0   0
+  -2     0   0   0   0   0   0   0   0   0
+  -3     0   0   0   0   0   0   0   0   0
+  -4     0   0   0   0   0   0   0   0   0
+  -5     0   0   0   0   0   0   0   0   0
+  -6     0   0   0   0   0   0   0   0   0
+  -7     0   0   0   0   0   0   0   0   0
+  -8    26   0   0   0   0   0   0   0   0
+  -9    25   0   0   0   0   0   0   0   0
+ -10    24   0   0   0   0   0   0   0   0
+ -11    23   0   0   0   0   0   0   0   0
+ -12    22   0   0   0   0   0   0   0   0
+ -13    21   0   0   0   0   0   0   0   0
+ -14    20   0   0   0   0   0   0   0   0
+ -15    19   0   0   0   0   0   0   0   0
+ -16    18   0   0   0   0   0   0   0   0
+ -17    17   0   0   0   0   0   0   0   0
+ -18    16   0   0   0   0   0   0   0   0
+ -19    15   0   0   0   0   0   0   0   0
+ -20    14   0   0   0   0   0   0   0   0
+   m/n  -4  -3  -2  -1   0   1   2   3   4
+
+helicities
+   lh   mh   nh
+    1    5    1
+    2   19    4
+    3    9    2
+    4   17    4
+    5    4    1
+    6   15    4
+    7    7    2
+    8   13    4
+    9    3    1
+   10   11    4
+   11    5    2
+   12    9    4
+   13    2    1
+   14    0    0
+   15    1    0
+
+    l   mm   nn          signl             rs         widthi         gammai
+    1   20    4              1        0.86780      2.305-143      0.000E+00
+    2   19    4              1        0.84200      5.288-142      0.000E+00
+    3   18    4              1        0.81392      6.645-141      0.000E+00
+    4   17    4              1        0.78335      4.482-141      0.000E+00
+    5   16    4              1        0.74969      2.983-141      0.000E+00
+    6   15    4              1        0.71183      1.566-141      0.000E+00
+    7   14    4              1        0.66770      7.655-141      0.000E+00
+    8   13    4              1        0.21501     -6.420-143      0.000E+00
+    9   12    4              1        0.36247      3.607-143      0.000E+00
+   10   11    4              1        0.50000      7.141-141      0.000E+00
+   11   10    4              1        0.50000      3.619-141      0.000E+00
+   12    9    4              1        0.50000     -4.275-141      0.000E+00
+   13    8    4              1        0.50000      6.186-141      0.000E+00
+   14  -20   -4             -1        0.86780     -4.120-144      0.000E+00
+   15  -19   -4             -1        0.84200     -1.114-141      0.000E+00
+   16  -18   -4             -1        0.81392     -7.128-141      0.000E+00
+   17  -17   -4             -1        0.78335     -8.041-141      0.000E+00
+   18  -16   -4             -1        0.74969      5.170-141      0.000E+00
+   19  -15   -4             -1        0.71183     -3.076-141      0.000E+00
+   20  -14   -4             -1        0.66770     -4.370-141      0.000E+00
+   21  -13   -4             -1        0.21501     -2.775-141      0.000E+00
+   22  -12   -4             -1        0.36247      1.910-141      0.000E+00
+   23  -11   -4             -1        0.50000     -5.475-141      0.000E+00
+   24  -10   -4             -1        0.50000     -3.242-141      0.000E+00
+   25   -9   -4             -1        0.50000     -8.358-142      0.000E+00
+   26   -8   -4             -1        0.50000     -1.707-141      0.000E+00
+   27    0    0              0        0.00000      1.000-140      0.000E+00
+   28    1    0              1        0.00000      1.000-140      0.000E+00
+   29    2    0              1        0.00000      1.000-140      0.000E+00
+   30    3    0              1        0.00000      1.000-140      0.000E+00
+   31    4    0              1        0.00000      1.000-140      0.000E+00
+   32    5    0              1        0.00000      1.000-140      0.000E+00
+   33    6    0              1        0.00000      1.000-140      0.000E+00
+   34    7    0              1        0.00000      1.000-140      0.000E+00
+   35    8    0              1        0.00000      1.000-140      0.000E+00
+   36    9    0              1        0.00000      1.000-140      0.000E+00
+   37   10    0              1        0.00000      1.000-140      0.000E+00
+
+lleq(m,n)
+ 10     11
+  9     10
+  8      9
+  7      8
+  6      7
+  5      6
+  4      5
+  3      4
+  2      3
+  1      2
+  0      1
+meq/neq  0
+
+eq helicities
+ lheq mheq nheq
+    1    0    0
+    2    1    0
+
+  leq mmeq nneq         sgnleq
+    1    0    0              0
+    2    1    0              1
+    3    2    0              1
+    4    3    0              1
+    5    4    0              1
+    6    5    0              1
+    7    6    0              1
+    8    7    0              1
+    9    8    0              1
+   10    9    0              1
+   11   10    0              1
+
+  linear matrix bldg. blocks: lmax0,ll0-    0
+                                        
+
+  linear matrix mode entries: lmaxn,lln-   26
+                                           13   12   11   10    9    8    7    6    5    4    3    2
+                                            1   26   25   24   23   22   21   20   19   18   17   16
+                                           15   14
+  wrdump: have written fs00000
+
+energy:numrun=00001,numruno=00000,nstep=       100,time= 2.00000E+02,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.375-228 2.065-227 1.358-224 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 1.127-228 1.119-227 2.893-224 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.622-228 7.057-228 4.496-224 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 5.777-228 1.623-227 5.803-224 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 4.758-227 5.969-227 5.965-224 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 7.553-226 2.850-226 9.336-224 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 1.637-224 1.595-225 7.563-223 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.129-223 1.440-225 9.969-222 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 4.794-223 5.087-225 4.510-221 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.116-222 1.903-224 1.152-220 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.919-222 1.692-224 2.155-220 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.727-222 2.968-224 2.621-220 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 6.140-223 2.830-224 1.029-220 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       200,time= 4.00000E+02,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 2.069E+55 1.567E+56 1.019E+59 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 9.828E+54 1.040E+56 2.310E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.363E+55 9.366E+55 3.709E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 4.158E+55 1.895E+56 5.512E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.415E+56 8.244E+56 7.708E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.496E+57 6.214E+57 1.485E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 1.093E+59 5.738E+58 5.964E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.478E+60 2.789E+59 6.762E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 8.903E+60 9.940E+59 4.807E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 2.472E+61 2.224E+60 1.394E+63 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 3.593E+61 3.762E+60 2.047E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 2.330E+61 3.492E+60 1.492E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 5.957E+60 1.465E+60 4.950E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       300,time= 6.00000E+02,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.116E+55 1.626E+56 5.870E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.419E+54 6.073E+55 1.251E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 8.787E+54 5.474E+55 1.857E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.482E+55 1.062E+56 2.586E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.769E+56 4.067E+56 4.017E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.725E+56 2.483E+57 9.651E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 5.415E+57 2.819E+58 5.337E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 2.396E+59 2.398E+59 2.635E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 2.183E+60 1.133E+60 1.366E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 7.144E+60 2.855E+60 3.458E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 8.969E+60 4.027E+60 3.318E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 4.167E+60 2.694E+60 1.800E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 6.752E+59 8.400E+59 1.403E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       400,time= 8.00000E+02,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.058E+55 2.651E+56 1.130E+59 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 9.085E+54 9.447E+55 2.307E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.472E+55 6.021E+55 3.384E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 4.917E+55 1.320E+56 4.083E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 4.432E+56 4.132E+56 4.455E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 4.145E+57 1.007E+57 9.273E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 6.196E+58 7.549E+57 8.744E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.589E+59 1.170E+59 6.664E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 2.584E+59 7.755E+59 1.963E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 3.443E+59 2.208E+60 3.758E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.123E+60 2.578E+60 7.071E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 2.577E+60 1.164E+60 1.300E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 1.576E+60 2.454E+59 6.662E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       500,time= 1.00000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 8.111E+54 8.153E+55 6.296E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.484E+54 5.478E+55 1.378E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 7.555E+54 3.878E+55 2.191E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.633E+55 8.618E+55 2.985E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.953E+56 3.479E+56 3.344E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.497E+57 2.164E+57 5.308E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 8.529E+58 1.531E+58 3.170E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 7.422E+59 3.189E+58 4.763E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 3.623E+60 5.776E+58 2.589E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 9.091E+60 9.214E+58 7.065E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.453E+61 2.630E+59 1.234E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.144E+61 5.014E+59 1.278E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 3.604E+60 3.236E+59 4.634E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       600,time= 1.20000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.805E+55 1.591E+56 8.167E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 8.003E+54 8.718E+55 1.838E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.161E+55 8.254E+55 2.902E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.340E+55 1.623E+56 4.348E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.906E+56 6.952E+56 6.548E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 1.665E+57 5.189E+57 1.378E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 5.868E+58 5.170E+58 5.703E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.013E+60 3.069E+59 4.712E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 6.708E+60 1.222E+60 3.455E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.940E+61 2.871E+60 9.995E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 2.716E+61 4.508E+60 1.326E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.622E+61 3.685E+60 7.995E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 3.741E+60 1.391E+60 2.813E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       700,time= 1.40000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.011E+55 1.865E+56 6.526E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.711E+54 6.330E+55 1.355E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 9.534E+54 5.217E+55 1.969E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.805E+55 1.033E+56 2.578E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.247E+56 3.655E+56 3.735E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 7.458E+56 1.793E+57 9.133E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 4.179E+57 2.117E+58 6.030E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 7.989E+58 2.154E+59 2.981E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 1.041E+60 1.101E+60 1.096E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 3.837E+60 2.856E+60 2.325E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 4.367E+60 3.849E+60 2.062E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.641E+60 2.348E+60 2.460E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.321E+59 6.641E+59 2.036E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       800,time= 1.60000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 6.930E+54 1.547E+56 7.942E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.381E+54 6.443E+55 1.645E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 9.822E+54 3.869E+55 2.474E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.433E+55 8.863E+55 3.034E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 3.044E+56 2.897E+56 3.055E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.805E+57 8.565E+56 5.406E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 6.972E+58 3.752E+57 5.295E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 3.273E+59 2.608E+58 5.292E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 1.036E+60 2.235E+59 1.876E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 2.011E+60 6.986E+59 4.207E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 4.158E+60 7.077E+59 8.316E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 5.007E+60 2.566E+59 1.248E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.200E+60 7.285E+58 5.539E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=       900,time= 1.80000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.163E+55 9.001E+55 7.071E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.493E+54 6.629E+55 1.583E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 8.809E+54 5.332E+55 2.549E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.912E+55 1.131E+56 3.646E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.905E+56 4.831E+56 4.544E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.448E+57 3.440E+57 7.818E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 9.405E+58 2.825E+58 3.578E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.002E+60 9.820E+58 5.209E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 5.424E+60 2.798E+59 3.287E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.433E+61 5.620E+59 9.331E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 2.181E+61 1.120E+60 1.512E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.558E+61 1.331E+60 1.339E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 4.445E+60 6.648E+59 4.576E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00001,numruno=00000,nstep=      1000,time= 2.00000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.378E+55 1.514E+56 6.319E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.113E+54 6.801E+55 1.393E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 9.362E+54 6.461E+55 2.140E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.617E+55 1.252E+56 3.147E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.610E+56 5.153E+56 4.936E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 6.241E+56 3.630E+57 1.117E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 2.280E+58 3.859E+58 5.160E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 5.519E+59 2.712E+59 3.147E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 4.097E+60 1.175E+60 2.141E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.242E+61 2.858E+60 6.005E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.667E+61 4.254E+60 6.995E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 9.048E+60 3.153E+60 3.483E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 1.833E+60 1.089E+60 1.582E+62 3.006E-01 3.006E-01 3.006E-01
+  wrdump: have written fs00001
+
+energy:numrun=00002,numruno=00001,nstep=      1100,time= 2.20000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.026E+55 2.309E+56 8.493E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 7.073E+54 7.645E+55 1.736E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.184E+55 5.592E+55 2.508E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.689E+55 1.151E+56 3.110E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 3.203E+56 3.767E+56 3.986E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 1.859E+57 1.317E+57 9.432E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 1.837E+58 1.508E+58 7.467E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.571E+58 1.899E+59 4.286E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 2.691E+59 1.067E+60 1.232E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.342E+60 2.866E+60 2.197E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.245E+60 3.660E+60 2.754E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 5.692E+59 1.997E+60 5.645E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 3.395E+59 5.001E+59 3.683E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1200,time= 2.40000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 6.443E+54 1.037E+56 6.585E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.431E+54 5.397E+55 1.397E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 7.886E+54 3.354E+55 2.160E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.809E+55 7.735E+55 2.764E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.346E+56 2.794E+56 2.814E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.620E+57 1.255E+57 4.441E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 7.678E+58 6.686E+57 3.756E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 5.061E+59 6.095E+57 4.785E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 2.085E+60 3.522E+58 2.093E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 4.771E+60 1.326E+59 5.267E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 8.345E+60 1.087E+59 9.957E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 7.734E+60 1.192E+59 1.246E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.818E+60 1.147E+59 4.967E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1300,time= 2.60000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.881E+55 1.405E+56 9.487E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 9.097E+54 9.572E+55 2.148E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.255E+55 8.512E+55 3.456E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.872E+55 1.733E+56 5.116E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.276E+56 7.538E+56 7.047E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.477E+57 5.664E+57 1.336E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 1.065E+59 5.154E+58 5.399E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.389E+60 2.408E+59 6.418E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 8.239E+60 8.382E+59 4.505E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 2.272E+61 1.855E+60 1.305E+63 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 3.323E+61 3.191E+60 1.945E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 2.184E+61 3.041E+60 1.461E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 5.676E+60 1.302E+60 4.845E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1400,time= 2.80000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.144E+55 1.600E+56 5.853E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.449E+54 6.108E+55 1.254E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 8.773E+54 5.567E+55 1.869E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.467E+55 1.078E+56 2.629E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.721E+56 4.180E+56 4.107E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.626E+56 2.622E+57 9.804E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 6.811E+57 2.951E+58 5.271E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 2.752E+59 2.440E+59 2.647E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 2.414E+60 1.139E+60 1.445E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 7.793E+60 2.855E+60 3.735E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 9.899E+60 4.058E+60 3.690E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 4.726E+60 2.755E+60 1.875E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 7.959E+59 8.721E+59 1.368E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1500,time= 3.00000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.180E+55 2.950E+56 1.224E+59 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 9.874E+54 1.033E+56 2.497E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.611E+55 6.696E+55 3.651E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 5.330E+55 1.455E+56 4.409E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 4.797E+56 4.555E+56 4.912E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 4.232E+57 1.138E+57 1.048E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 6.052E+58 9.474E+57 9.689E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.325E+59 1.458E+59 7.059E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 1.793E+59 9.379E+59 2.035E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 2.724E+59 2.643E+60 3.799E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 8.322E+59 3.135E+60 6.936E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 2.224E+60 1.464E+60 1.318E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 1.470E+60 3.154E+59 6.956E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1600,time= 3.20000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 7.730E+54 8.272E+55 6.265E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.409E+54 5.390E+55 1.365E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 7.494E+54 3.734E+55 2.164E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.628E+55 8.358E+55 2.921E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.988E+56 3.329E+56 3.217E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.510E+57 2.001E+57 5.062E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 8.399E+58 1.371E+58 3.188E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 7.049E+59 2.515E+58 4.733E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 3.373E+60 4.033E+58 2.500E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 8.375E+60 6.235E+58 6.761E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.352E+61 1.903E+59 1.195E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.085E+61 4.123E+59 1.271E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 3.481E+60 2.828E+59 4.665E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1700,time= 3.40000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.910E+55 1.630E+56 8.708E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 8.527E+54 9.247E+55 1.964E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.226E+55 8.709E+55 3.113E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.557E+55 1.719E+56 4.666E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.021E+56 7.397E+56 6.954E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 1.970E+57 5.549E+57 1.443E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 6.810E+58 5.463E+58 5.902E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.123E+60 3.145E+59 5.154E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 7.312E+60 1.232E+60 3.783E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 2.100E+61 2.874E+60 1.097E+63 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 2.959E+61 4.562E+60 1.482E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.793E+61 3.799E+60 9.243E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 4.212E+60 1.458E+60 3.189E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1800,time= 3.60000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.022E+55 1.813E+56 6.342E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.601E+54 6.227E+55 1.322E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 9.321E+54 5.223E+55 1.926E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.719E+55 1.029E+56 2.548E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.141E+56 3.693E+56 3.751E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 6.413E+56 1.895E+57 9.172E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 3.499E+57 2.228E+58 5.872E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.009E+59 2.195E+59 2.868E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 1.209E+60 1.106E+60 1.118E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 4.340E+60 2.856E+60 2.456E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 5.046E+60 3.879E+60 2.159E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.977E+60 2.406E+60 2.206E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.741E+59 6.926E+59 1.873E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      1900,time= 3.80000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 7.252E+54 1.677E+56 8.321E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.674E+54 6.767E+55 1.718E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.037E+55 4.080E+55 2.572E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.603E+55 9.296E+55 3.138E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 3.214E+56 3.001E+56 3.183E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.848E+57 8.310E+56 5.788E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 6.848E+58 3.768E+57 5.699E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 2.981E+59 3.480E+58 5.442E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 8.804E+59 2.827E+59 1.863E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.630E+60 8.652E+59 4.075E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 3.542E+60 9.046E+59 8.070E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 4.571E+60 3.379E+59 1.253E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.096E+60 8.204E+58 5.676E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00002,numruno=00001,nstep=      2000,time= 4.00000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.085E+55 8.642E+55 6.857E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.242E+54 6.344E+55 1.530E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 8.471E+54 5.000E+55 2.461E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.830E+55 1.069E+56 3.494E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.891E+56 4.535E+56 4.277E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.452E+57 3.178E+57 7.241E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 9.240E+58 2.556E+58 3.436E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 9.516E+59 8.317E+58 5.095E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 5.070E+60 2.253E+59 3.143E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.329E+61 4.410E+59 8.877E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 2.038E+61 9.143E+59 1.458E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.478E+61 1.147E+60 1.326E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 4.284E+60 5.924E+59 4.569E+62 3.006E-01 3.006E-01 3.006E-01
+  wrdump: have written fs00002
+
+energy:numrun=00003,numruno=00002,nstep=      2100,time= 4.20000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.433E+55 1.513E+56 6.511E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.324E+54 7.017E+55 1.441E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 9.596E+54 6.684E+55 2.225E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.689E+55 1.297E+56 3.290E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.625E+56 5.383E+56 5.138E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 7.316E+56 3.843E+57 1.150E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 2.710E+58 4.044E+58 5.195E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 6.132E+59 2.765E+59 3.317E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 4.453E+60 1.182E+60 2.308E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.338E+61 2.860E+60 6.524E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.810E+61 4.291E+60 7.788E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 1.000E+61 3.230E+60 3.989E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.077E+60 1.132E+60 1.701E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00003,numruno=00002,nstep=      2200,time= 4.40000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.012E+55 2.212E+56 8.027E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 6.734E+54 7.316E+55 1.643E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.129E+55 5.467E+55 2.374E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.482E+55 1.117E+56 2.966E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.991E+56 3.697E+56 3.892E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 1.595E+57 1.379E+57 9.302E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 1.443E+58 1.605E+58 7.147E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.775E+58 1.945E+59 3.967E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 3.678E+59 1.073E+60 1.170E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 1.698E+60 2.863E+60 2.124E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.646E+60 3.694E+60 2.448E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 6.168E+59 2.059E+60 4.851E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.684E+59 5.275E+59 3.301E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00003,numruno=00002,nstep=      2300,time= 4.60000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 6.387E+54 1.098E+56 6.730E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.516E+54 5.490E+55 1.421E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 8.087E+54 3.370E+55 2.188E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.878E+55 7.787E+55 2.776E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.436E+56 2.761E+56 2.804E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.645E+57 1.163E+57 4.478E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 7.560E+58 5.884E+57 3.936E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 4.749E+59 6.387E+57 4.833E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 1.893E+60 5.145E+58 2.042E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 4.249E+60 1.880E+59 5.058E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 7.575E+60 1.553E+59 9.658E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 7.253E+60 1.087E+59 1.244E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 2.712E+60 9.804E+58 5.040E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00003,numruno=00002,nstep=      2400,time= 4.80000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.717E+55 1.272E+56 8.892E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 8.475E+54 8.870E+55 2.012E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 1.163E+55 7.777E+55 3.240E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 3.632E+55 1.593E+56 4.775E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 2.166E+56 6.925E+56 6.475E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.464E+57 5.178E+57 1.207E+60 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 1.039E+59 4.641E+58 4.931E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 1.309E+60 2.080E+59 6.127E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 7.646E+60 7.055E+59 4.239E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 2.093E+61 1.543E+60 1.225E+63 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 3.082E+61 2.702E+60 1.854E+63 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 2.054E+61 2.652E+60 1.433E+63 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 5.422E+60 1.161E+60 4.763E+62 3.006E-01 3.006E-01 3.006E-01
+
+energy:numrun=00003,numruno=00002,nstep=      2500,time= 5.00000E+03,dt= 2.00000E+00
+
+   l   m/  n        ke        me     vprlf     gamke     gamme    gamvpr
+  13   8   4 1.174E+55 1.576E+56 5.862E+58 3.006E-01 3.006E-01 3.006E-01
+  12   9   4 5.500E+54 6.165E+55 1.262E+59 3.006E-01 3.006E-01 3.006E-01
+  11  10   4 8.789E+54 5.676E+55 1.890E+59 3.006E-01 3.006E-01 3.006E-01
+  10  11   4 2.463E+55 1.098E+56 2.683E+59 3.006E-01 3.006E-01 3.006E-01
+   9  12   4 1.680E+56 4.306E+56 4.210E+59 3.006E-01 3.006E-01 3.006E-01
+   8  13   4 3.675E+56 2.768E+57 9.977E+59 3.006E-01 3.006E-01 3.006E-01
+   7  14   4 8.552E+57 3.088E+58 5.217E+60 3.006E-01 3.006E-01 3.006E-01
+   6  15   4 3.137E+59 2.483E+59 2.678E+61 3.006E-01 3.006E-01 3.006E-01
+   5  16   4 2.658E+60 1.145E+60 1.533E+62 3.006E-01 3.006E-01 3.006E-01
+   4  17   4 8.473E+60 2.855E+60 4.040E+62 3.006E-01 3.006E-01 3.006E-01
+   3  18   4 1.088E+61 4.089E+60 4.110E+62 3.006E-01 3.006E-01 3.006E-01
+   2  19   4 5.328E+60 2.817E+60 2.003E+62 3.006E-01 3.006E-01 3.006E-01
+   1  20   4 9.305E+59 9.052E+59 1.352E+62 3.006E-01 3.006E-01 3.006E-01
+
+
+ psi   : m=   8 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=   8 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=   8 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=   8 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=   8 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=   8 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=   9 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=   9 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=   9 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=   9 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=   9 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=   9 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  10 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  10 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  10 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  10 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  10 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  10 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  11 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  11 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  11 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  11 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  11 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  11 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  12 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  12 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  12 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  12 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  12 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  12 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  13 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  13 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  13 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  13 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  13 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  13 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  14 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  14 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  14 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  14 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  14 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  14 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  15 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  15 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  15 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  15 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  15 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  15 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  16 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  16 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  16 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  16 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  16 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  16 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  17 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  17 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  17 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  17 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  17 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  17 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  18 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  18 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  18 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  18 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  18 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  18 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  19 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  19 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  19 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  19 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  19 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  19 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ psi   : m=  20 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ phi   : m=  20 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ pr    : m=  20 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ nfast : m=  20 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vfast : m=  20 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+ vth   : m=  20 n=   4 gam=  4.35907E-01 om_r=  5.10195E-01
+
+                              n       Avg. gam:         Avg. om_r:
+                              4     4.35907E-01        5.10195E-01
+
+                                    3.98518E-24        1.49386E-23
+
+  wrdump: have written fs0000z
+
+ time = 22:04:12       date = 02/06/2026
+
+ elapsed time:   0 hours  3 minutes 36 seconds

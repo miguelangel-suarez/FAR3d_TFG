@@ -9,6 +9,7 @@ import re
 import numpy as np
 import pandas as pd
 
+FACTOR_DE_CONVERSION_FREQ = 0.5998134E+03
 
 class OutputParser:
     def __init__(self, work_dir):
@@ -78,58 +79,59 @@ class OutputParser:
 
         return df_out
 
-    def extract_gam_omr(self, filename="farprt"):
+    import os
+
+    def extract_gam_omr(self, file="farprt"):
         """
-        Extrae las variables escalares finales (gam, om_r, etc.) del archivo farprt.
-        Lee el archivo con una expresión regular para encontrar la tabla de resultados finales,
-        y devuelve un diccionario con las medias y varianzas de gam y om_r.
+        Extrae los valores medios y varianzas de gam y om_r directamente
+        del sumario al final del archivo farprt, calculados por FAR3d.
         """
+        farprt_path = os.path.join(self.work_dir, file)
 
-        def read_table(resultados_lista, filepath):
-            with open(filepath, 'r', encoding='utf-8') as f:
-                contenido = f.read()
-
-                # Expresión regular para capturar la tabla de variables del eigenmodo
-                patron = r"\s*([a-zA-Z]+)\s*:\s*m=\s*([+-]?\d+)\s*n=\s*([+-]?\d+)\s*gam=\s*([+-]?\d+\.\d+[Ee][+-]\d+)\s*om_r=\s*([+-]?\d+\.\d+[Ee][+-]\d+)"
-                matches = re.findall(patron, contenido)
-
-                for match in matches:
-                    resultados_lista.append({
-                        "variable_eigen": match[0],
-                        "m": int(match[1]),
-                        "n": int(match[2]),
-                        "gam": float(match[3]),
-                        "om_r": float(match[4])
-                    })
-
-            return resultados_lista
-
-        filepath = os.path.join(self.work_dir, filename)
-        resultados = []
-
-        if not os.path.exists(filepath):
-            print(f"    [!] Advertencia: No se encontró el archivo {filename}")
-            return {"gam_mean": None, "om_r_mean": None, "gam_var": None, "om_r_var": None}
-
-        # Extraemos la lista de diccionarios con las configuraciones
-        lista_datos = read_table(resultados, filepath)
-        if not lista_datos:
-            print(f"    [!] Advertencia: La tabla no se encontró en {filename}")
-            return {"gam_mean": None, "om_r_mean": None, "gam_var": None, "om_r_var": None}
-
-        gams = [item["gam"] for item in lista_datos]
-        om_rs = [item["om_r"] for item in lista_datos]
-
-        # Usamos numpy para calcular medias y varianzas.
-        # (ddof=1 calcula la varianza muestral, si prefieres la poblacional cambia a ddof=0)
-        diccionario_estadistico = {
-            "gam": float(np.mean(gams)),
-            "om_r": float(np.mean(om_rs)),
-            "gam_var": float(np.var(gams, ddof=1)) if len(gams) > 1 else 0.0,
-            "om_r_var": float(np.var(om_rs, ddof=1)) if len(om_rs) > 1 else 0.0
+        # Valores por defecto por si el programa falló antes de escribir el sumario
+        resultados = {
+            'gam': 0.0,
+            'om_r': 0.0,
+            'gam_var': 0.0,
+            'om_r_var': 0.0
         }
 
-        return diccionario_estadistico
+        if not os.path.exists(farprt_path):
+            print(f"[!] Advertencia: Archivo {farprt_path} no encontrado.")
+            return resultados
+
+        with open(farprt_path, 'r', encoding='utf-8') as f:
+            lineas = f.readlines()
+
+        for i, linea in enumerate(lineas):
+            # 1. Buscar la cabecera indicadora
+            if "Avg. gam:" in linea and "Avg. om_r:" in linea:
+
+                # 2. Leer la línea inmediatamente siguiente (n, gam_mean, om_r_mean)
+                if i + 1 < len(lineas):
+                    partes_medias = lineas[i + 1].split()
+                    if len(partes_medias) >= 3:
+                        resultados['gam'] = float(partes_medias[1])
+                        resultados['om_r'] = float(partes_medias[2]) * FACTOR_DE_CONVERSION_FREQ
+
+                # 3. Leer la línea de varianzas
+                # Buscamos en las siguientes 4 líneas para ser inmunes a los saltos de línea (espacios en blanco)
+                for j in range(i + 2, min(i + 6, len(lineas))):
+                    partes_var = lineas[j].split()
+
+                    # La línea de varianzas es inconfundible: tiene exactamente 2 bloques de texto
+                    if len(partes_var) == 2:
+                        try:
+                            resultados['gam_var'] = float(partes_var[0])
+                            resultados['om_r_var'] = float(partes_var[1])
+                            break  # Una vez encontrados los 2 valores, dejamos de buscar
+                        except ValueError:
+                            continue  # Si por algún motivo no eran números, ignoramos la línea
+
+                # Una vez procesado el bloque, salimos del bucle principal
+                break
+
+        return resultados
 
     def extract_profiles(self, filename="profiles.dat"):
         """
@@ -162,8 +164,8 @@ class OutputParser:
             # Leer Tabla
             df = pd.read_csv(filepath, header=0, delimiter="\t")
             # Agrupar columnas (R + I) por cada onda
-            df_limpio = self.transformar_a_amplitud(df)
-            return df_limpio
+            # df_limpio = self.transformar_a_amplitud(df)
+            return df
         except Exception as e:
             print(f"    [!] Error al leer {filename}: {e}")
             return None
@@ -227,7 +229,9 @@ class OutputParser:
         """
         print("    [>] Extrayendo datos de la simulación...")
         datos_extraidos = {
-            'escalares': self.extract_gam_omr("farprt")
+            'escalares': self.extract_gam_omr("farprt"),
+            'phi_0000': self.extract_matrix("phi_0000"),
+            'profiles': self.extract_profiles("profiles.dat")
         }
         return datos_extraidos
 

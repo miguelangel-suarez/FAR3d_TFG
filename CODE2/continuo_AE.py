@@ -1,3 +1,5 @@
+from math import sqrt
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -5,13 +7,15 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('out_n=1.txt', sep='\t', header=None)
 
 # 2. Eliminar la primera fila (para quitar el valor gigante E+10)
-df = df[(df < 1e9).all(axis=1)]
+df = df[(df < 500).all(axis=1)]
+df[0] = df[0].apply(sqrt)
+df.to_csv("df_continuo.csv")
 
 # 3. Extraer el eje X (primera columna, índice 0)
 x = df.iloc[:, 0]
 
 # 4. Extraer el eje Y
-columna_y = 1
+columna_y = 6
 y = df.iloc[:, columna_y]
 
 # 5. Configurar la figura

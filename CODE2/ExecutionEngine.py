@@ -16,7 +16,7 @@ class ExecutionEngine:
         """
         self.work_dir = os.path.abspath(work_dir)
 
-    def run_simulation(self, run_id, timeout_seconds=3600):
+    def run_simulation(self, run_id, timeout_seconds=6000):
         """
         Lanza la simulación mediante WSL y espera a que termine.
         :param run_id: Identificador de la simulación actual (para los logs).
@@ -60,8 +60,6 @@ class ExecutionEngine:
                 f"    [!] ALERTA: La simulación {run_id} excedió el tiempo límite de {timeout_seconds}s y fue abortada.")
             return {
                 "status": "TIMEOUT",
-                "stdout": e.stdout.decode('utf-8') if e.stdout else "",
-                "stderr": e.stderr.decode('utf-8') if e.stderr else "",
                 "return_code": None
             }
         except FileNotFoundError:
