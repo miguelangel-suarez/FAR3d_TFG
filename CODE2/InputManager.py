@@ -6,6 +6,7 @@
 
 import os
 import re
+import shutil
 
 
 class InputManager:
@@ -120,3 +121,15 @@ class InputManager:
             f.writelines(out_lines)
 
         print(f"[*] {output_filename} generado con éxito.")
+
+    def copiar_archivos_vitales(self):
+        archivos_extra = ["xfar3d", "Eq_DIIID_RS"]
+
+        for archivo in archivos_extra:
+            ruta_origen = os.path.join(self.template_dir, archivo)
+            ruta_destino = os.path.join(self.output_dir, archivo)
+
+            if os.path.exists(ruta_origen):
+                shutil.copy2(ruta_origen, ruta_destino)
+            else:
+                print(f"Advertencia: No se encontró el archivo '{archivo}' en la carpeta de templates.")

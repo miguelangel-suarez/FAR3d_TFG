@@ -16,7 +16,7 @@ class ExecutionEngine:
         """
         self.work_dir = os.path.abspath(work_dir)
 
-    def run_simulation(self, run_id, timeout_seconds=6000):
+    def run_simulation(self, run_id=1, timeout_seconds=6000):
         """
         Lanza la simulación mediante WSL y espera a que termine.
         :param run_id: Identificador de la simulación actual (para los logs).

@@ -85,21 +85,21 @@ def main():
 
     # Definimos el "espacio de búsqueda"
     input_model_grid = {
-        'bet0_f': np.linspace(0.001, 0.04, 4),
+        'bet0_f': np.linspace(0.001, 0.04, 11),
         'maxstp': [2500],
         'EP_dens_on': [1],
-        'Bdens': [0.1, 0.8],
-        'Adens': [0.5, 10]
+        'Bdens': [0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8],
+        'Adens': [0.5, 2, 4, 6, 8, 10]
     }
 
     data_txt_grid = {
-        'Beam Ion Effective Temp(keV)': [0, 100]
+        'Beam Ion Effective Temp(keV)': [60]     # [60]  ||  [80, 100]
     }
 
     # --- MODOS TOROIDALES Y POLOIDALES ---
-    nn = [1, 2, 3, 4]
+    nn = [2, 3, 4]
     dicc_nm = {
-        1: [2, 3, 4, 5],
+        # 1: [2, 3, 4, 5],
         2: [4, 5, 6, 7, 8, 9, 10],
         3: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
         4: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
