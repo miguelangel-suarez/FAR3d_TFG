@@ -14,11 +14,11 @@
 !!!!!!!!!!! eq_name: equilibrium name 
 Eq_DIIID_RS
 !!!!!!!!!!! maxstp: simulation time steps 
-1000
+2500
 !!!!!!!!!!! dt0: simulation time step 
 2
 !!!!!!!!!!! ldim: total number of poloidal modes (equilibrium + dynamic) 
-19
+43
 !!!!!!!!!!! leqdim: equilibrium poloidal modes 
 11
 !!!!!!!!!!! jdim: number of radial points
@@ -49,11 +49,11 @@ Data.txt
 ==================================/ MODEL PARAMETERS \===================================
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!! MODES INCLUDED IN THE MODEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!! mm: poloidal dynamic and equilibrium modes
-4,3,2,1,
--4,-3,-2,-1,
+25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,
+-25,-24,-23,-22,-21,-20,-19,-18,-17,-16,-15,-14,-13,-12,-11,-10,
 0,1,2,3,4,5,6,7,8,9,10
 !!!!!!!!!!! nn: toroidal dynamic and equilibrium modes
-4*1,4*-1,11*0
+16*5,16*-5,11*0
 !!!!!!!!!!! mmeq: poloidal equilibrium modes
 0,1,2,3,4,5,6,7,8,9,10
 !!!!!!!!!!! nneq: toroidal equilibrium modes
@@ -83,7 +83,7 @@ Data.txt
 !!!!!!!!!!! gamma: adiabatic index
 0.0
 !!!!!!!!!!! s: magnetic Lundquist number
-5000000.0
+5.e6
 !!!!!!!!!!! betath_factor: thermal beta factor
 1
 !!!!!!!!!!! ietaeq: resistivity profile type (if 5 the electron temperature is used)
@@ -91,7 +91,7 @@ Data.txt
 !!!!!!!!!!! spe1: species first EP population
 1
 !!!!!!!!!!! bet0_f: fast particle beta
-0.01
+0.0166
 !!!!!!!!!!! spe2: species second EP population
 4
 !!!!!!!!!!! bet0_falp: 2nd species fast particle beta
@@ -151,7 +151,7 @@ Data.txt
 0.02
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OUTPUT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!! lplots: number of eigenfunction modes in the output files
-8
+32
 !!!!!!!!!!! nprint: number of step for an output in farprt file
 100
 !!!!!!!!!!! ndump: number of step for an output 
@@ -162,9 +162,9 @@ Data.txt
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ================================/ SELF PROFILES PARAMETERS \============================
 !!!!!!!!!!! EP_dens_on: user defined fast particle density profile (if 1)
-0
+1
 !!!!!!!!!!! Adens: fast particle density profile flatness
-7
+6.0
 !!!!!!!!!!! Bdens: location of the fast particle density profile gradient
 0.1
 !!!!!!!!!!! Alpha_dens_on: user defined 2nd species fast particle density profile (if 1)

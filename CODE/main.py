@@ -1,164 +1,150 @@
-import os
-import csv
-import shutil
-import subprocess
+"""
+---------------- AUTOMATIZACIÓN DE FAR3D -------------------
+Bloque Orquestados para Generar de forma automática y en paralelo las distintas simulaciones
+con FAR3d. Se implementa el Pipeline completo de los datos y su guardado en distintas
+bases de datos (una por cada n)
+
+"""
+
 import itertools
+import os
 import numpy as np
-from visualizar_plots import graficar_omr_gam
-from lectura_archivos import leer_farprt, crear_input_model, guardar_en_csv
+import pandas as pd
+import concurrent.futures
 
-# ==========================================
-# 0. VARIABLES GLOBALES
-# ==========================================
-
-DIR_SIMULACION = "DIIID"
-DIR_SIMULACIONES_GUARDADAS = "DIIID_0"
-EJECUTABLE_WSL = "wsl"
-EJECUTABLE_FAR3D = "./xfar3d"
-TEMPLATE_FILE_PATH = os.path.join(DIR_SIMULACION, "Input_Model_Template")
-INPUT_MODEL_PATH = os.path.join(DIR_SIMULACION, "Input_Model")
-FARPRT_PATH = os.path.join(DIR_SIMULACION, "farprt")
-CSV_PATH = "base_de_datos.csv"
-
-# ==========================================
-# 1. FUNCIONES PLACEHOLDER
-# ==========================================
-
-def ejecutar_FAR3d():
-    """Ejecuta FAR3D a través de WSL dentro de la carpeta especificada."""
-    try:
-        comando = [EJECUTABLE_WSL, EJECUTABLE_FAR3D]
-
-        # El parámetro cwd=CARPETA_SIMULACION le dice a WSL que se ubique
-        # dentro de la carpeta DIIID antes de lanzar ./far3d
-        subprocess.run(
-            comando,
-            capture_output=True,
-            text=True,
-            check=True,
-            cwd=DIR_SIMULACION
-        )
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"\nError en la simulación FAR3D. Salida de error:\n{e.stderr}")
-        return False
-    except FileNotFoundError:
-        print("\nError: No se encontró el comando WSL o la ruta especificada.")
-        return False
+from InputManager import InputManager
+from ExecutionEngine import ExecutionEngine
+from OutputParser import OutputParser
+from DataManager import DataManager
+from AutoLabeler import SimulationLabeler
 
 
-def es_configuracion_significativa(config, diccionario_params):
+# ---------------------------------------------------------
+# FUNCIÓN DEL TRABAJADOR (Ejecutada en paralelo)
+# ---------------------------------------------------------
+def worker_simulacion_por_n(n, mm_vals, combinaciones, all_keys, len_input, template_dir, csv_continuo):
     """
-    Determina si una configuración es significativa.
-    Retorna True SOLO si TODOS los parámetros están en su valor mínimo o máximo.
-    Si algún parámetro tiene un valor intermedio, retorna False.
+    Este worker se encarga de procesar TODAS las combinaciones de la malla
+    pero única y exclusivamente para un valor de 'n' específico.
+    Trabaja en su propia carpeta aislada (ej: "DIIID_4" para n=4)
     """
-    for nombre, valor_actual in config.items():
-        # Recuperamos la lista de todos los valores posibles para este parámetro
-        valores_posibles = diccionario_params[nombre]
+    # Definimos el entorno aislado para este 'n'
+    target_directory = f"./DIIID_{n}"
+    db_csv = os.path.join(target_directory, "data.csv")
 
-        # Obtenemos los extremos de esa lista
-        valor_minimo = min(valores_posibles)
-        valor_maximo = max(valores_posibles)
+    # Instanciamos los módulos apuntando EXCLUSIVAMENTE a la carpeta del worker
+    manager = InputManager(template_dir=template_dir, output_dir=target_directory)
+    engine = ExecutionEngine(work_dir=target_directory)
+    parser = OutputParser(work_dir=target_directory)
+    data_manager = DataManager(csv_path=db_csv, keys=all_keys)
+    labeler = SimulationLabeler()
 
-        # Comprobamos si el valor actual es un valor intermedio
-        if valor_actual != valor_minimo and valor_actual != valor_maximo:
-            return False  # Al encontrar un intermedio, descartamos toda la configuración
+    print(f"[*] Worker [n={n}] INICIADO en {target_directory} -> Procesará {len(combinaciones)} simulaciones.")
 
-    # Si logramos salir del bucle, significa que todos los valores
-    # de esta configuración estaban en los extremos (min o max)
-    return True
+    for run_id, combinacion_actual in enumerate(combinaciones):
+        # Separar las variables del Input_Model y del Data_txt
+        current_input_vars = dict(zip(all_keys[:len_input], combinacion_actual[:len_input]))
+        current_data_vars = dict(zip(all_keys[len_input:], combinacion_actual[len_input:]))
 
+        # MÓDULO 1: PREPARACIÓN DE ENTRADAS
+        manager.modify_input_model('Input_Model', 'Input_Model', current_input_vars, nn_val=n, mm_vals=mm_vals)
+        manager.modify_data_txt('Data.txt', 'Data.txt', current_data_vars)
 
-# ==========================================
-# 2. LÓGICA PRINCIPAL DE LA AUTOMATIZACIÓN
-# ==========================================
+        # MÓDULO 2: EJECUCIÓN
+        exec_result = engine.run_simulation(run_id=run_id, timeout_seconds=1800)
 
-def recolectar_parametros():
-    """Genera el cuestionario por terminal para configurar las variables."""
-    def valores(partes):
-        vmin = float(partes[0].strip())
-        vmax = float(partes[1].strip())
-        num_valores = int(partes[2].strip())
+        if exec_result['status'] == "SUCCESS":
 
-        valores = np.linspace(vmin, vmax, num_valores)
-        return [round(float(v), 4) for v in valores]  # Redondeo por limpieza
+            # MÓDULO 3: EXTRACCIÓN DE RESULTADOS
+            datos_simulacion = parser.parse_csv()
+            escalares = datos_simulacion.get("escalares", {})
+            df_phi = datos_simulacion.get("phi_0000")
+            df_profile = datos_simulacion.get("profiles")
+            df_continuo = pd.read_csv(csv_continuo)
 
-    print("=== CONFIGURACIÓN DE PARÁMETROS DE SIMULACIÓN ===")
-    print("\n--- RANGOS DE PARÁMETROS---")
-    parametros = {}
-    for var in ["bet0_f", "s"]:
-        entrada = input(f"{var} (MIN, MAX, NºVALORES) -> ")
-        partes = entrada.split(",")
-        parametros[var] = valores(partes)
-        print(f"  -> Valores generados: {parametros[var]}")
+            # MÓDULO 4: ASIGNAR ETIQUETA
+            etiqueta = labeler.generate_label(
+                escalares=escalares,
+                df_phi=df_phi,
+                df_continuo=df_continuo,
+                df_prof=df_profile
+            )
 
-    print("\n--- MULTIPLICIDAD DE PARÁMETROS---")
-    for var in ["BEAM ION EFFECTIVE TEMP"]:
-        entrada = input(f"{var}(FACTORES DE MULTIPLICIDAD) -> ")
-        factores = [float(valor.strip()) for valor in entrada.split(',')]
-        parametros[var] = factores
-        print(f"  -> Valores generados: {parametros[var]}")
+            # MÓDULO 5: GUARDADO EN EL CSV PROPIO DEL WORKER
+            input_summary = {**current_input_vars, **current_data_vars, "n": n}
+            data_manager.save_simulation(input_summary, escalares, etiqueta)
 
-    return parametros
+            print(f"    [+] [n={n}] Simulación {run_id} EXITOSA: Freq={etiqueta.get('om_r')}, Tasa={etiqueta.get('gamma')} "
+                  f"Inestabilidad={etiqueta.get('tipo_inestabilidad')}")
 
-
-def main():
-    # 1. Cuestionario en terminal
-    diccionario_params = recolectar_parametros()
-
-    nombres_params = list(diccionario_params.keys())
-    listas_valores = list(diccionario_params.values())
-
-    # Generar todas las combinaciones posibles (Grid)
-    combinaciones = list(itertools.product(*listas_valores))
-    print(f"\n[INFO] Se ejecutarán un total de {len(combinaciones)} simulaciones.")
-
-    # Eliminar carpeta de simulaciones guardadas (para nuevas simulaciones)
-    # if os.path.exists(DIR_SIMULACIONES_GUARDADAS):
-        # os.remove(DIR_SIMULACIONES_GUARDADAS)
-
-    # 4. Bucle principal de iteración
-    for indice, combo in enumerate(combinaciones, start=1):
-        # Emparejar nombres con valores actuales
-        config_actual = dict(zip(nombres_params, combo))
-        print(f"\n--- Ejecutando simulación {indice}/{len(combinaciones)} ---")
-        print(f"Configuración: {config_actual}")
-
-        # 1. Crear el Input_Model.txt dentro de DIIID
-        crear_input_model(config_actual, TEMPLATE_FILE_PATH, INPUT_MODEL_PATH)
-        
-        # A. Lanzar simulación
-        exito = ejecutar_FAR3d()
-        
-        if exito:
-            # B. Leer resultados del output de la carpeta temporal
-            lista_resultados = leer_farprt(FARPRT_PATH)
-            # C. Guardar configuracion y resultados en CSV
-            guardar_en_csv(CSV_PATH, config_actual, lista_resultados)
-    
-            # D. Guardar carpeta si es significativa
-            if es_configuracion_significativa(config_actual, diccionario_params):
-                # Crear un nombre único basado en los parámetros
-                str_params = "_".join([f"{k}-{v}" for k, v in config_actual.items()])
-                nombre_carpeta_dest = f"DIIID_{str_params}"
-                ruta_dest = os.path.join(DIR_SIMULACIONES_GUARDADAS, nombre_carpeta_dest)
-    
-                # Si ya existe (raro si los params son únicos, pero por seguridad), la borramos
-                if os.path.exists(ruta_dest):
-                    shutil.rmtree(ruta_dest)
-    
-                # Copiar la carpeta temporal a la carpeta de guardado
-                shutil.copytree(DIR_SIMULACION, ruta_dest)
-                print(f"  [!] Simulación significativa guardada en: {ruta_dest}")
         else:
-            print("FALLO. Saltando a la siguiente combinación.")
+            print(f"    [!] [n={n}] Simulación {run_id} OMITIDA (Fallo ejecución).")
 
-    # 5. Fase final: Graficar
-    print("\n[INFO] Bucle de simulaciones terminado.")
-    graficar_omr_gam(CSV_PATH)
-    print(f"\n[INFO] Gráficas completadas. OK")
+    return f"[OK] Worker [n={n}] ha terminado todas sus simulaciones."
 
 
-if __name__ == "__main__":
+# ---------------------------------------------------------
+# ORQUESTADOR PRINCIPAL
+# ---------------------------------------------------------
+def main():
+    TEMPLATE_DIR = "./Templates_DIIID"
+    CSV_CONTINUO = "./espectros_continuos_Alfven/df_continuo.csv"
+
+    # Definimos el "espacio de búsqueda"
+    input_model_grid = {
+        'bet0_f': np.linspace(0.001, 0.04, 11),
+        'maxstp': [2500],
+        'EP_dens_on': [1],
+        'Bdens': [0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8],
+        'Adens': [0.5, 2, 4, 6, 8, 10]
+    }
+
+    data_txt_grid = {
+        'Beam Ion Effective Temp(keV)': [0, 20, 40, 60, 80, 100]
+    }
+
+    # --- MODOS TOROIDALES Y POLOIDALES ---
+    nn = [1, 2, 3, 4, 5]
+    dicc_nm = {
+        1: [2, 3, 4, 5],
+        2: [4, 5, 6, 7, 8, 9, 10],
+        3: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        4: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        5: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    }
+
+    # --- Preparamos las combinaciones ---
+    all_keys = list(input_model_grid.keys()) + list(data_txt_grid.keys())
+    all_values_lists = list(input_model_grid.values()) + list(data_txt_grid.values())
+    todas_las_combinaciones = list(itertools.product(*all_values_lists))
+
+    print(f"[*] Total de combinaciones base a ejecutar: {len(todas_las_combinaciones)}")
+    print(f"[*] Iniciando 5 procesos paralelos (uno por cada valor de n)...\n")
+
+    # --- LANZAMIENTO EN PARALELO ---
+    with concurrent.futures.ProcessPoolExecutor(max_workers=5) as executor:
+        futuros = []
+
+        for n in nn:
+            modos_m = dicc_nm[n]
+            futuro = executor.submit(
+                worker_simulacion_por_n,
+                n,
+                modos_m,
+                todas_las_combinaciones,
+                all_keys,
+                len(input_model_grid),
+                TEMPLATE_DIR,
+                CSV_CONTINUO
+            )
+            futuros.append(futuro)
+
+        # Esperamos a que todos terminen y mostramos su mensaje de finalización
+        for futuro in concurrent.futures.as_completed(futuros):
+            print(futuro.result())
+
+    print("\n[✔] TODAS LAS SIMULACIONES HAN FINALIZADO.")
+
+
+if __name__ == '__main__':
     main()
