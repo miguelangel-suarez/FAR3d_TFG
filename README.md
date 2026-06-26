@@ -23,8 +23,8 @@ Este proyecto desarrolla una plataforma integral en Python para la automatizaci�
 El código FAR3d es una herramienta escrita en Fortran para estudiar inestabilidades magnetohidrodinámicas en reactores de fusión. Sin embargo, su uso manual y el análisis de sus salidas de texto complican los estudios a gran escala.
 
 Este proyecto resuelve ese cuello de botella proporcionando:
-* **Paralelización Inteligente:** Arquitectura *Worker-Dispatcher* para lanzar decenas de simulaciones simultáneas evitando colisiones de disco.
-* **Orquestación Paramétrica:** Modificación dinámica del espectro de ondas (modos poloidales $m$ y toroidales $n$).
+* **Paralelización Inteligente:** Arquitectura *Worker-Dispatcher* para lanzar decenas de simulaciones simultáneas para la generación eficiente y sin conflictos de una base de datos masiva.
+* **Orquestación Paramétrica:** Modificación dinámica del espectro de ondas (modos poloidales $m$ y toroidales $n$) y del espacio parámetrico de estudio que permite la herramienta de FAR3d.
 * **Etiquetado Físico Autónomo:** Un algoritmo que cruza la matriz de la autofunción con la nube de puntos del **espectro del continuo**, detectando amortiguamiento, calculando el gap topológico y diagnosticando automáticamente el tipo de inestabilidad (TAE, BAE, RSAE, etc.).
 * **Dashboard Interactivo:** Interfaz web para analizar hipercubos de datos mediante Mapas de Calor (Heatmaps) y lanzar simulaciones locales al instante.
 
