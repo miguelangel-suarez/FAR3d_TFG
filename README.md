@@ -50,3 +50,64 @@ FAR3d_TFG/
 │   └── templates/              # Archivos base (Input_Model_template, DATA_template.txt)
 ├── docs/                       # Documentación adicional y memoria del TFG
 └── README.md                   # Este archivo
+```
+
+---
+
+## ⚙️ Arquitectura del Sistema
+El directorio CODE/ está diseñado bajo principios de programación orientada a objetos (POO), Computación de Alto Rendimiento (HPC) y separación de responsabilidades:
+- La Capa de Extracción (OutputParser.py): Utiliza Expresiones Regulares (Regex) para identificar y unificar las partes Reales e Imaginarias de las ondas, obteniendo el módulo/amplitud real de cada familia $m/n$. Extrae medias y varianzas de convergencia directamente de los volcados de Fortran.
+- La Capa Analítica (AutoLabeler.py): Identifica el modo dominante y su acoplamiento ($\Delta m$). Luego, realiza una aproximación numérica y un slicing (rebanada) radial en el perfil del continuo de Alfvén para extraer las ramas delimitadoras y clasificar la inestabilidad en su gap exacto.
+- La Capa de Control HPC (main.py): Despliega un ProcessPoolExecutor bajo el patrón Worker-Dispatcher. Múltiples workers crean directorios aislados temporales (worker_PID), calculan y devuelven los resultados en memoria al proceso principal, garantizando una escritura segura y libre de bloqueos en un único archivo CSV global.
+- La Capa de Interfaz (app.py): Un Dashboard compuesto por 3 capas:
+-   Capa Global: Análisis de datos mediante Mallas de estabilidad (Heatmaps 2D interactivos) con superposición de varianza.
+-   Capa Local: Interfaz para lanzar simulaciones individuales (modos $nn$ y $mm$), ejecutar FAR3d en segundo plano y graficar autofunciones dinámicamente.
+-   Capa Simulaciones Guardadas: Repositorio JSON/CSV persistente que permite recuperar simulaciones históricas y re-visualizarlas.
+
+---
+
+4. 🚀 Instalación y Requisitos
+Para ejecutar este proyecto, necesitas Python 3.8 o superior. Se recomienda crear un entorno virtual para aislar las dependencias:
+
+```Bash
+# 1. Clonar el repositorio
+git clone [https://github.com/miguelangel-suarez/FAR3d_TFG.git](https://github.com/miguelangel-suarez/FAR3d_TFG.git)
+cd FAR3d_TFG/CODE
+
+# 2. Crear entorno virtual (opcional pero recomendado)
+python -m venv venv
+
+# Activar el entorno virtual:
+# En Linux/macOS:
+source venv/bin/activate  
+# En Windows:
+venv\Scripts\activate
+
+# 3. Instalar dependencias científicas y web
+pip install pandas numpy matplotlib scipy streamlit
+```
+(Nota importante: Para poder ejecutar simulaciones de la herramienta FAR3d, debes tener disponible WSL2 desde Windows o trabajar desde un entorno Linux).
+
+---
+
+5. 🖥️ Guía de Uso
+5.1. Desplegar la Interfaz Web (Dashboard)
+Para interactuar gráficamente con los datos, analizar cortes del espacio de parámetros o lanzar simulaciones individuales para observar el comportamiento de nf_0000 y phi_0000:
+
+```Bash
+cd CODE
+streamlit run app.py
+```
+Esto iniciará un servidor local y abrirá automáticamente el Dashboard en tu navegador (normalmente en http://localhost:8501).
+
+5.2. Ejecutar un Barrido Paramétrico (Generación de Datos HPC)
+Si deseas generar una base de datos masiva desde cero, configura las matrices de variables (input_model_grid y data_txt_grid), el número toroidal n y los modos poloidales m dentro del archivo main.py. Luego, ejecútalo:
+
+```Bash
+cd CODE
+python main.py
+```
+El script orquestará automáticamente los entornos aislados (workers), procesará todas las combinaciones en paralelo aprovechando todos los núcleos de tu CPU, limpiará los archivos binarios temporales y unificará los resultados y las etiquetas de la IA en un archivo maestro simulaciones_base_datos.csv.
+
+6. 👨‍💻 Contacto y Autor
+Miguel Ángel Suárez: https://github.com/miguelangel-suarez/FAR3d_TFG
