@@ -5,7 +5,7 @@
 [![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458.svg)](https://pandas.pydata.org/)
 [![Fortran](https://img.shields.io/badge/Fortran-FAR3d-734F96.svg)](#)
 
-Este proyecto desarrolla una plataforma integral en Python para la automatización, paralelización (HPC), visualización y etiquetado físico de simulaciones del código MHD **FAR3d** (código de simulación de plasmas de fusión). La herramienta actúa como un **Gemelo Digital**, permitiendo realizar barridos paramétricos masivos y clasificar topológicamente las inestabilidades de Alfvén (TAE, BAE, RSAE, GAE, etc.) preparándolas para modelos de Machine Learning usados en la Detección de Inestabilidades de los Modos de ALfvén en el plasma en reactores nucleares de fusión, específicamente en el DIII-D.
+Este proyecto desarrolla una plataforma integral en Python para la automatización, paralelización (HPC), visualización y etiquetado físico de simulaciones del código MHD **FAR3d** (código de simulación de plasmas de fusión). La herramienta actúa como un **Gemelo Digital**, permitiendo realizar barridos paramétricos masivos y clasificar topológicamente las inestabilidades de Alfvén (TAE, BAE, RSAE, GAE, NAE y EAE) preparándolas para modelos de Machine Learning usados en la Detección de Inestabilidades de los Modos de Alfvén en el plasma en reactores nucleares de fusión, específicamente en el DIII-D.
 
 ---
 
@@ -26,7 +26,7 @@ Este proyecto resuelve ese cuello de botella proporcionando:
 * **Paralelización Inteligente:** Arquitectura *Worker-Dispatcher* para lanzar decenas de simulaciones simultáneas para la generación eficiente y sin conflictos de una base de datos masiva.
 * **Orquestación Paramétrica:** Modificación dinámica del espectro de ondas (modos poloidales $m$ y toroidales $n$) y del espacio parámetrico de estudio que permite la herramienta de FAR3d.
 * **Etiquetado Físico Autónomo:** Un algoritmo que cruza la matriz de la autofunción con la nube de puntos del **espectro del continuo**, detectando amortiguamiento, calculando el gap topológico y diagnosticando automáticamente el tipo de inestabilidad (TAE, BAE, RSAE, etc.).
-* **Dashboard Interactivo:** Interfaz web para analizar hipercubos de datos mediante Mapas de Calor (Heatmaps) y lanzar simulaciones locales al instante.
+* **Dashboard Interactivo:** Interfaz web para analizar hipercubos de datos mediante Mapas de Calor (Heatmaps), lanzar simulaciones individuales directamente y guardar los resultados de las simulaciones de interés.
 
 ---
 
@@ -37,17 +37,22 @@ El desarrollo de software de este proyecto se encuentra dentro del directorio **
 ```text
 FAR3d_TFG/
 ├── CODE/
-│   ├── app.py                  # Frontend: Dashboard web interactivo (Streamlit)
-│   ├── main.py                 # Orquestador HPC: Ejecución paralela masiva
-│   ├── InputManager.py         # Generador dinámico de archivos Input_Model y DATA.txt
-│   ├── OutputParser.py         # Extractor de amplitudes complejas, medias y varianzas
-│   ├── AutoLabeler.py          # Motor de reglas físicas y clasificación de inestabilidades
-│   ├── ExecutionEngine.py      # Gestor de llamadas de sistema al ejecutable FAR3d
-│   ├── Visualization.py        # Módulo clásico de graficado Matplotlib (Heatmaps, Ejes Twin)
-│   ├── simulaciones_guardadas/ # Repositorio de JSONs y CSVs de ejecuciones locales
-│   └── templates/              # Archivos base (Input_Model_template, DATA_template.txt)
-├── docs/                       # Documentación adicional y memoria del TFG
-└── README.md                   # Este archivo
+│   ├── app.py                     # Interfaz Web: Dashboard web interactivo (Streamlit)
+│   ├── main.py                    # Orquestador del flujo automático de Creación de Base de Datos: Ejecución paralela masiva
+|   ├── main_alternativo.py        # 2º Orquestador del flujo: Paralelización a nivel más granular mediante Worker-Dispatcher
+│   ├── InputManager.py            # Generador dinámico de archivos Input_Model y DATA.txt
+│   ├── OutputParser.py            # Extractor de resultados de las simulaciones: valores constantes y autofunciones
+│   ├── AutoLabeler.py             # Etiquetador automático a partir de reglas físicas establecidas para clasificar cada inestabilidad (o estabilidad)
+│   ├── ExecutionEngine.py         # Gestor del ejecutable de FAR3d (uso mediante WSL2 desde Windows)
+│   ├── DataManager.py             # Responsable del guardado en la base de datos (CSVs) de los resultados 
+│   ├── simulaciones_guardadas/    # Repositorio de JSONs y CSVs de ejecuciones locales (guardadas desde Interfaz Web: app.py)
+│   ├── DIIID/                     # Directorio de trabajo de las simulaciones ejecutadas desde la Interfaz Web
+│   ├── BaseDeDatos/               # Archivos CSV finales creados a partir de la Automatización de la Herramienta (usada posteriormente para Modelos de IA)
+│   ├── espectros_continuos_Afven/ # Directorio con los datos del continuo (out_n=1.txt), representaciones del continuo en PNGs, y archivos varios
+│   ├── Templates_DIIID/           # Archivos base (Input_Model, DATA.txt, Eq_DIIID_RS, xfar3d)
+│   └── Modelización.ipynb         # Notebook Jupyter con la Creación de la Arquitectura de Machine Learning para la Detección de Inestabilidades AE
+|   ...
+└── README.md
 ```
 
 ---
@@ -61,6 +66,7 @@ El directorio CODE/ tiene los siguientes puntos vitales del desarrollo del proye
 -   Capa Global: Análisis de datos mediante Mallas de estabilidad (Heatmaps 2D interactivos) con superposición de varianza.
 -   Capa Local: Interfaz para lanzar simulaciones individuales (modos $nn$ y $mm$), ejecutar FAR3d en segundo plano y graficar autofunciones dinámicamente.
 -   Capa Simulaciones Guardadas: Repositorio JSON persistente que permite recuperar simulaciones históricas y re-visualizarlas de la misma forma que en la Capa Local.
+- La Capa de Modelización de IA (Modelización.ipynb): A partir de la base de datos generada (*./BaseDeDatos/data_final.csv*), se diseña la arquitectura de **Maestro-Estudiante** ("Destilamiento de Conocimiento") con modelos de Machine Learning con el fin de entrenar un modelo subrogado que a partir de las variables de entrada de la base de datos sea capaz de determinar si existe inestabilidad o no en el dispositivo nuclear, y en caso afirmativo determinar su tipología alfvénica. Además, se añade una sección de evaluación de los modelos y de interpretabilidad con la técnica post-hoc de SHAP para métodos basados en árboles de decisión.
 
 ---
 
@@ -98,7 +104,7 @@ streamlit run app.py
 ```
 Esto iniciará un servidor local y abrirá automáticamente el Dashboard en tu navegador
 
-5.2. Ejecutar un Barrido Paramétrico (Generación de Datos HPC)
+5.2. Ejecutar un Barrido Paramétrico (Generación de Base de Datos)
 Si deseas generar una base de datos masiva desde cero, configura las matrices de variables (input_model_grid y data_txt_grid), el número toroidal n y los modos poloidales m dentro del archivo main.py. Luego, ejecútalo:
 
 ```Bash
