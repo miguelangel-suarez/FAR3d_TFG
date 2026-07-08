@@ -57,10 +57,6 @@ with col3:
 st.markdown("---")
 
 
-"""
---- FUNCIONES AUXILIARES (Lectura de CSV, extraer número, renderizar graficas y resultados locales)---
-"""
-
 @st.cache_data
 def load_data(csv_path=BASE_DATOS):
     if not os.path.exists(csv_path):

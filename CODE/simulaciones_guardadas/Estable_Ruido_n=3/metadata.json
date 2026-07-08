@@ -1,0 +1,51 @@
+{
+    "inputs": {
+        "bet0_f": 0.001,
+        "Bdens": 0.2,
+        "Adens": 0.5,
+        "Beam Ion Effective Temp(keV)": 20,
+        "n": 3
+    },
+    "modos": {
+        "nn": 3,
+        "mm": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+        ]
+    },
+    "gam": 0.0154063,
+    "om_r": 17.48474055402,
+    "gam_var": 3.24905e-07,
+    "om_r_var": 0.00029747,
+    "etiqueta_IA": {
+        "om_r": 17.48474055402,
+        "gamma": 0.0154063,
+        "es_inestable": 0,
+        "tipo_inestabilidad": "Estable/Ruido",
+        "modo_dominante_str": "14/3",
+        "modo_m": 14,
+        "pos_radial": 0.834,
+        "r_qmin": 0.444,
+        "r_continuo_aprox": 0.8335538374934159,
+        "diff_m": 0,
+        "min_continuo_global": 7.122817,
+        "ramas": [
+            25.61539,
+            108.6104,
+            216.4476,
+            237.6838,
+            333.7959,
+            357.4872,
+            464.7522,
+            483.0482
+        ]
+    }
+}
