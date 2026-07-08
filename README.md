@@ -63,9 +63,9 @@ El directorio CODE/ tiene los siguientes puntos vitales del desarrollo del proye
 - La Capa de Etiquetado (AutoLabeler.py): Identifica el modo dominante y su acoplamiento ($\Delta m$). Luego, realiza una aproximación numérica y un slicing (rebanada) radial en el perfil del continuo de Alfvén para extraer el hueco del continuo donde cae dicha inestabilidad y clasificar la inestabilidad juntando esos 2 criterios.
 - La Capa de Orquestación (main.py): Orquesta todo el pipeline de lanzamiento de las simulaciones de forma paralela entre distintos workers, leyendo datos, extrayendo los resultados y guardandolos en un archivo CSV global.
 - La Capa de Interfaz (app.py): Un Dashboard iterativo compuesto por 3 capas:
--     Capa Global: Análisis de datos mediante Mallas de estabilidad (Heatmaps 2D interactivos) con superposición de varianza.
--     Capa Local: Interfaz para lanzar simulaciones individuales (modos $nn$ y $mm$), ejecutar FAR3d en segundo plano y graficar autofunciones dinámicamente.
--     Capa Simulaciones Guardadas: Repositorio JSON persistente que permite recuperar simulaciones históricas y re-visualizarlas de la misma forma que en la Capa Local.
+    - Capa Global: Análisis de datos mediante Mallas de estabilidad (Heatmaps 2D interactivos) con superposición de varianza.
+    - Capa Local: Interfaz para lanzar simulaciones individuales (modos $nn$ y $mm$), ejecutar FAR3d en segundo plano y graficar autofunciones dinámicamente.
+    - Capa Simulaciones Guardadas: Repositorio JSON persistente que permite recuperar simulaciones históricas y re-visualizarlas de la misma forma que en la Capa Local.
 - La Capa de Modelización de IA (Modelización.ipynb): A partir de la base de datos generada (*./BaseDeDatos/data_final.csv*), se diseña la arquitectura de **Maestro-Estudiante** ("Destilamiento de Conocimiento") con modelos de Machine Learning con el fin de entrenar un modelo subrogado que a partir de las variables de entrada de la base de datos sea capaz de determinar si existe inestabilidad o no en el dispositivo nuclear, y en caso afirmativo determinar su tipología alfvénica. Además, se añade una sección de evaluación de los modelos y de interpretabilidad con la técnica post-hoc de SHAP para métodos basados en árboles de decisión.
 
 ---
