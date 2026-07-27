@@ -12,7 +12,7 @@ Este proyecto desarrolla una plataforma integral en Python para la automatizaci�
 ## 📑 Índice
 1. [Contexto del Proyecto](#-contexto-del-proyecto)
 2. [Estructura del Repositorio](#-estructura-del-repositorio)
-3. [Arquitectura del Sistema (`CODE/`)](#-arquitectura-del-sistema)
+3. [Arquitectura del Sistema](#-arquitectura-del-sistema)
 4. [Instalación y Requisitos](#-instalación-y-requisitos)
 5. [Guía de Uso](#-guía-de-uso)
 6. [Contacto y Autor](#-autor)
@@ -32,11 +32,8 @@ Este proyecto resuelve ese cuello de botella proporcionando:
 
 ## 📂 Estructura del Repositorio
 
-El desarrollo de software de este proyecto se encuentra dentro del directorio **`CODE/`**.
-
 ```text
 FAR3d_TFG/
-├── CODE/
 │   ├── app.py                     # Interfaz Web: Dashboard web interactivo (Streamlit)
 │   ├── main.py                    # Orquestador del flujo automático de Creación de Base de Datos: Ejecución paralela masiva
 |   ├── main_alternativo.py        # 2º Orquestador del flujo: Paralelización a nivel más granular mediante Worker-Dispatcher
@@ -50,15 +47,14 @@ FAR3d_TFG/
 │   ├── BaseDeDatos/               # Archivos CSV finales creados a partir de la Automatización de la Herramienta (usada posteriormente para Modelos de IA)
 │   ├── espectros_continuos_Afven/ # Directorio con los datos del continuo (out_n=1.txt), representaciones del continuo en PNGs, y archivos varios
 │   ├── Templates_DIIID/           # Archivos base (Input_Model, DATA.txt, Eq_DIIID_RS, xfar3d)
-│   └── Modelización.ipynb         # Notebook Jupyter con la Creación de la Arquitectura de Machine Learning para la Detección de Inestabilidades AE
-|   ...
-└── README.md
+│   ├── Modelización.ipynb         # Notebook Jupyter con la Creación de la Arquitectura de Machine Learning para la Detección de Inestabilidades AE
+|   └── README.md
 ```
 
 ---
 
 ## ⚙️ Arquitectura del Sistema
-El directorio CODE/ tiene los siguientes puntos vitales del desarrollo del proyecto de software:
+El repositorio contiene los siguientes puntos vitales del desarrollo del proyecto de software:
 - La Capa de Extracción (OutputParser.py): Utiliza expresiones regulares para identificar y unificar las partes reales e imaginarias de las ondas de las autofunciones, obteniendo el módulo/amplitud real de cada familia $m/n$. Extrae medias y varianzas de convergencia directamente de los volcados de Fortran. Todo esto para extraer los datos esenciales para el diagnóstico del plasma.
 - La Capa de Etiquetado (AutoLabeler.py): Identifica el modo dominante y su acoplamiento ($\Delta m$). Luego, realiza una aproximación numérica y un slicing (rebanada) radial en el perfil del continuo de Alfvén para extraer el hueco del continuo donde cae dicha inestabilidad y clasificar la inestabilidad juntando esos 2 criterios.
 - La Capa de Orquestación (main.py): Orquesta todo el pipeline de lanzamiento de las simulaciones de forma paralela entre distintos workers, leyendo datos, extrayendo los resultados y guardandolos en un archivo CSV global.
@@ -76,7 +72,7 @@ Para ejecutar este proyecto, necesitas Python 3.8 o superior. Se recomienda crea
 ```Bash
 # 1. Clonar el repositorio
 git clone [https://github.com/miguelangel-suarez/FAR3d_TFG.git](https://github.com/miguelangel-suarez/FAR3d_TFG.git)
-cd FAR3d_TFG/CODE
+cd FAR3d_TFG
 
 # 2. Crear entorno virtual (opcional pero recomendado)
 python -m venv venv
@@ -108,7 +104,6 @@ Esto iniciará un servidor local y abrirá automáticamente el Dashboard en tu n
 Si deseas generar una base de datos masiva desde cero, configura las matrices de variables (input_model_grid y data_txt_grid), el número toroidal n y los modos poloidales m dentro del archivo main.py. Luego, ejecútalo:
 
 ```Bash
-cd CODE
 python main.py
 ```
 
